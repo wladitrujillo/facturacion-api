@@ -1,9 +1,7 @@
 import { ICustomer } from "../model/customer";
 import CustomerService = require("../service/customer.service");
 import BaseController = require("./base.ctrl");
-import { IEnterprise } from "../model/enterprise";
 import { Request, Response } from "express";
-import { IUser } from "../model/user";
 import { getLogger } from 'log4js';
 
 const logger = getLogger("CustomerController");
@@ -18,9 +16,8 @@ class CustomerController extends BaseController<ICustomer> {
     findByTaxId = async (req: Request, res: Response) => {
 
         try {
-            let enterprise = res.locals.jwtPayload.enterprise;
             let taxId = req.params.taxId;
-            let customer: ICustomer = await this._service.findOne({ enterprise: enterprise, taxId: taxId });     
+            let customer: ICustomer = await this._service.findOne({ taxId: taxId });
             res.send(customer);
         }
         catch (e) {
@@ -30,4 +27,4 @@ class CustomerController extends BaseController<ICustomer> {
 
     }
 }
-export = CustomerController;    
+export = CustomerController;

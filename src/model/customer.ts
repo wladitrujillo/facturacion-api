@@ -1,8 +1,6 @@
 import { Document, Schema, Model, model } from "mongoose";
-import { IEnterprise } from "./enterprise";
 
 export interface ICustomer extends Document {
-    enterprise:String;
     firstName: String;
     lastName: String;
     phone: String;
@@ -15,11 +13,6 @@ export interface ICustomer extends Document {
 
 
 let CustomerSchema = new Schema({
-    enterprise: {
-        type: Schema.Types.ObjectId,
-        ref: 'Enterprise',
-        required: true
-    },
     firstName: {
         type: String,
         required: false,

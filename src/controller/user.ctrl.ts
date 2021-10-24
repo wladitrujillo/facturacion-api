@@ -33,7 +33,7 @@ export class UserController extends BaseController<IUser>{
         }
         catch (e) {
             logger.error(e);
-            res.send(e.message);
+            res.send(e?.message);
 
         }
     }
@@ -41,7 +41,7 @@ export class UserController extends BaseController<IUser>{
     public uploadProfilePicture = (req: Request, res: Response) => {
 
         let upload = multer({ storage: storage, fileFilter: this.imageFilter }).single('upload');
-        upload(req, res, function (err) {
+        upload(req, res, function (err:any) {
 
             // req.file contains information of uploaded file
             // req.body contains information of text fields, if there were any
@@ -54,7 +54,7 @@ export class UserController extends BaseController<IUser>{
             }
 
             // Display uploaded image for user validation
-            res.send(`You have uploaded this image: <hr/><img src="${req.file.path}" width="500"><hr /><a href="./">Upload another image</a>`);
+            res.send(`You have uploaded this image: <hr/><img src="${req?.file?.path}" width="500"><hr /><a href="./">Upload another image</a>`);
         });
 
     }
@@ -69,7 +69,7 @@ export class UserController extends BaseController<IUser>{
                 res.end("No such image");
             } else {
                 //specify the content type in the response will be an image
-                res.writeHead(200, { 'Content-Type': 'image/jpg'  });
+                res.writeHead(200, { 'Content-Type': 'image/jpg' });
                 res.end(content);
             }
         });
@@ -77,7 +77,7 @@ export class UserController extends BaseController<IUser>{
     }
 
 
-    private getFileExtension = (urlImage:string) => {
+    private getFileExtension = (urlImage: string) => {
         let parts = urlImage.split('/');
         let fileName = '';
         logger.debug("url parts", parts);

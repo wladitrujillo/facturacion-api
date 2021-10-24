@@ -7,7 +7,7 @@ export class PageRequest {
     fields: string;
     sort: string;
 
-    constructor(request: Request) {
+    constructor(request: any) {
         this.q = request.query.q;
         this.page = parseInt(request.query.page);
         this.pageSize = parseInt(request.query.per_page);

@@ -1,6 +1,4 @@
-import { IEnterprise } from "../model/enterprise";
 import { IUser } from "../model/user";
-import EnterpriseRepository = require("../repository/enterprise.repository");
 import UserRepository = require("../repository/user.repository");
 import RoleRepository = require("../repository/role.repository");
 import jwt = require('jsonwebtoken');
@@ -10,49 +8,35 @@ import ServiceException = require("./service.exception");
 
 class AuthService {
 
-    private _enterpriseRepository: EnterpriseRepository;
     private _userRepository: UserRepository;
     private _roleRepository: RoleRepository;
 
     constructor() {
 
-        this._enterpriseRepository = new EnterpriseRepository();
         this._userRepository = new UserRepository();
         this._roleRepository = new RoleRepository();
 
     }
 
-    async register(enterprise: IEnterprise, user: IUser, password: string) {
+    async register(user: IUser, password: string) {
 
         let role = await this._roleRepository.findById('SUPERADMIN');
 
         if (!role)
             throw new ServiceException(404, "Role SUPERADMIN not found");
 
-        let newEnterprise = await this._enterpriseRepository.create(enterprise);
 
-        user.enterprise = newEnterprise;
         user.role = role;
         user.hash = bcrypt.hashSync(password, 10);
-        
+
         user.active = true;
 
         return this._userRepository.create(user);
     }
 
-    async login(email: string) {
+    async authenticate(email: string, password: string) {
 
-        let users = await this._userRepository.getByEmail(email);
-
-        if (!users || users.length <= 0)
-            throw new ServiceException(404, "Email no registrado");
-
-        return users.map(u => u.enterprise);
-    }
-
-    async authenticate(email: string, password: string, enterprise: string) {
-
-        let user = await this._userRepository.getUserByEmailAndEnterprise(email, enterprise);
+        let user: IUser = await this._userRepository.getByEmail(email);
 
         if (!user)
             throw new ServiceException(404, "Usuario no econtrado");
@@ -73,7 +57,6 @@ class AuthService {
         const secret = process.env.SECRET || '';
         const dataStoredInToken = {
             sub: user._id,
-            enterprise: user.enterprise._id || user.enterprise,
             role: user.role
         }
 

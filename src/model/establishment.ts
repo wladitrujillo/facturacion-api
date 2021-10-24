@@ -1,7 +1,6 @@
 import { Document, Schema, Model, model } from "mongoose";
 
 export interface IEstablishment extends Document {
-    enterprise: String;
     taxId: String;
     autorization: String;
     autorizationDate: Date;
@@ -14,11 +13,6 @@ export interface IEstablishment extends Document {
 }
 
 let EstablishmentSchema = new Schema({
-    enterprise: {
-        type: Schema.Types.ObjectId,
-        ref: 'Enterprise',
-        required: true
-    },    
     name: {
         type: String,
         required: true,

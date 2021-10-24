@@ -15,7 +15,6 @@ export class AuthRoutes {
     routes() {
 
         this.router.route("/login")
-            .get(AuthController.login)
             .post(AuthController.authenticate);
 
 

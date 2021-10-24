@@ -66,10 +66,7 @@ class App {
   //Connecting to our MongoDB database
   private setMongoConfig() {
     mongoose.Promise = global.Promise;
-    mongoose.set('useCreateIndex', true);
     mongoose.connect(process.env.DATABASE || '', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
     });
   }
 }

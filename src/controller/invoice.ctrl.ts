@@ -15,9 +15,7 @@ class InvoiceController extends BaseController<IInvoice>{
         try {
 
             let branchId: string = req.params.branchId;
-            let enterpriseId: string = res.locals.jwtPayload.enterprise;
             let invoice: IInvoice = <IInvoice>req.body;
-            invoice.enterprise = enterpriseId;
             logger.debug("Create invoice ==>>", invoice);
             let newInvoice: IInvoice = await new InvoiceService().createInvoice(branchId, invoice);
 

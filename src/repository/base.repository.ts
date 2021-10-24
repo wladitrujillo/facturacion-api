@@ -9,10 +9,10 @@ class RepositoryBase<T extends mongoose.Document>  {
         this._model = schemaModel;
     }
 
-    create(item: T): Promise<T> {
+    create(item: T): Promise<mongoose.Document> {
 
         return new Promise((resolve, reject) => {
-            this._model.create(item, (error: any, result: T) => {
+            this._model.create(item, (error: any, result: mongoose.Document) => {
                 if (error) reject(error)
                 else resolve(result)
             });
@@ -25,7 +25,7 @@ class RepositoryBase<T extends mongoose.Document>  {
 
         let plus = /\+/g;
         let comma = /\,/g;
-       
+
         if (pageRequest.q) {
             criteria.$text = { $search: pageRequest.q }
         }
@@ -81,7 +81,7 @@ class RepositoryBase<T extends mongoose.Document>  {
     update(_id: mongoose.Types.ObjectId, item: T): Promise<T> {
 
         return new Promise((resolve, reject) => {
-            this._model.update({ _id: _id }, item, (error, result) => {
+            this._model.update({ _id: _id }, item, (error: any, result: T) => {
                 if (error) reject(error)
                 else resolve(result);
             });
@@ -92,7 +92,7 @@ class RepositoryBase<T extends mongoose.Document>  {
 
     delete(_id: string) {
         return new Promise((resolve, reject) => {
-            this._model.remove({ _id: this.toObjectId(_id) }, (error) => {
+            this._model.remove({ _id }, (error) => {
                 if (error) reject(error)
                 else resolve(_id);
             });
@@ -104,7 +104,7 @@ class RepositoryBase<T extends mongoose.Document>  {
     findById(_id: string): Promise<T> {
 
         return new Promise((resolve, reject) => {
-            this._model.findById(this.toObjectId(_id), (error, result: T) => {
+            this._model.findById(_id, (error: any, result: T) => {
                 if (error) reject(error)
                 else resolve(result);
             });
@@ -121,10 +121,6 @@ class RepositoryBase<T extends mongoose.Document>  {
         });
     }
 
-
-    public toObjectId(_id: string): mongoose.Types.ObjectId {
-        return mongoose.Types.ObjectId.createFromHexString(_id)
-    }
 
 }
 

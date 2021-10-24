@@ -1,10 +1,8 @@
 import { Document, Schema, Model, model } from "mongoose";
-import { IEnterprise } from "./enterprise";
 import { IRole } from "./role";
 
 
 export interface IUser extends Document {
-    enterprise: IEnterprise;
     role: IRole;
     firstName: string;
     lastName: string;
@@ -21,11 +19,6 @@ export interface IUser extends Document {
 }
 
 let UserSchema = new Schema({
-    enterprise: {
-        type: Schema.Types.ObjectId,
-        ref: 'Enterprise',
-        required: true
-    },
     role: {
         type: String,
         ref: 'Role',

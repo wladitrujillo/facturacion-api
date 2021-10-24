@@ -1,9 +1,7 @@
 
 import { Document, Model, Schema, model } from 'mongoose';
-import { IEnterprise } from './enterprise';
 
 export interface IProduct extends Document {
-    enterprise: IEnterprise | string;
     code: string;
     auxCode: string;
     name: string;
@@ -63,11 +61,6 @@ let ProductSchema = new Schema({
         type: Number,
         required: false,
         default: 0.0
-    },
-    enterprise: {
-        type: Schema.Types.ObjectId,
-        ref: 'Enterprise',
-        required: true
     }
 
 });

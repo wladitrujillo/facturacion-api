@@ -4,7 +4,6 @@ import EstablishmentRepository from "./../repository/establishment.repository";
 import { IInvoice } from "../model/invoice";
 import CrudService from "./crud.service";
 import { IBranch } from "../model/branch";
-import { IEnterprise } from "../model/enterprise";
 import { IEstablishment } from "../model/establishment";
 
 
