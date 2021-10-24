@@ -1,0 +1,147 @@
+@startuml entities
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "Enterprise" as Enterprise {
+  *_id : Number <<generated>>
+  --
+  name : String
+  taxId : String 
+  createAt : Date 
+  urlImage : String
+  taxId : String 
+  autorization : String
+  autorizationDate : Date
+
+}
+
+entity "Role" as Role {
+  *_id : Number <<generated>>
+  --
+  name : String
+  description : String 
+  createAt : Date   
+
+}
+
+entity "User" as User {
+  *_id : Number <<generated>>
+  --
+  *enterprise : Enterprise
+  *role : Role
+  firstName : String
+  lastName : String
+  email : String
+  createAt : Date
+  active : Boolean
+  hash : String  
+  urlImage : String
+
+}
+
+entity "Customer" as Customer {
+  *_id : Number <<generated>>
+  --
+  *enterprise : Enterprise
+  firstName : String
+  lastName : String
+  taxId : String
+  address : String
+  email : String
+  createdAt : Date
+  active : Boolean 
+
+}
+
+entity "Product" as Product {
+  *_id : Number <<generated>>
+  --
+  *enterprise : Enterprise
+  name : String
+  description : String
+  createdAt : Date
+  active : Boolean
+  price : Number
+  haveTaxes : Boolean
+  
+}
+
+entity "Invoice" as Invoice {
+  *_id : Number <<generated>>
+  --
+  *branch : Branch
+  *customer : Customer
+  secuence : Number  
+  createdAt : Date
+  totalWithTax : Number
+  totalWithoutTax : Number 
+  tax : Number
+  ice : Number
+  total : Number 
+  
+}
+
+entity "InvoiceDetail" as InvoiceDetail {
+  *_id : Number <<generated>>
+  --
+  *invoice : Invoice
+  *product : Product  
+  cantidad : Number
+  total : Number  
+  
+}
+
+entity "Establishment" as Establishment {
+  *_id : Number <<generated>>
+  --
+  *enterprise : Enterprise
+  name : String
+  code : String  
+  address : String 
+ 
+}
+
+
+entity "Branch" as Branch {
+  *_id : Number <<generated>>
+  --
+  *establishment : Establishment
+  name : String 
+  code : String  
+  address : String 
+  secFactura : Number
+  secNotaCredito : Number
+  secNotaDebito: Number
+  secGuiaRemision: Number
+ 
+}
+
+
+entity "WayToPay" as WayToPay {
+  *_id : Number <<generated>>
+  --
+  code : String
+  name : String  
+
+}
+
+Role ||..o{ User
+Enterprise ||..o{ User
+Enterprise ||..o{ Establishment
+Enterprise |o..o{ Customer
+Enterprise ||..o{ Product
+Enterprise ||..o{ Invoice
+Establishment ||..o{ Branch
+Branch |o..o{ Invoice
+Invoice |o..o{ InvoiceDetail
+Customer |o..o{ Invoice
+Product |o..o{ InvoiceDetail
+WayToPay |o..o{ Invoice
+
+
+
+@enduml

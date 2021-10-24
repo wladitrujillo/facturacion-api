@@ -1,0 +1,8 @@
+@startuml
+
+user -->(Forgot password)
+user -->(New password)
+(Forgot password) -->(Send email)
+(New password)-->(Change password)
+
+@enduml

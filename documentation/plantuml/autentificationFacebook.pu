@@ -1,0 +1,6 @@
+@startuml
+
+user -->(Login Facebook)
+(Login Facebook)-->(Autentification Facebook)
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+actor user 
+user -->(Find Client) 
+(Find Client) -->(Find Product): Customer found
+(Find Product)-->(Create Invoice): Product found 
+(Find Product)-->(Create Product): If Poduct not exist
+(Find Client)-->(Create Customer): If Customer not found
+(Create Customer)-->(Find Product)
+@enduml)

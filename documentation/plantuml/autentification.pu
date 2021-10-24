@@ -1,0 +1,7 @@
+@startuml 
+user --> (Login)
+user --> (Forgot password)
+user -->(Login Facebook)
+
+
+@enduml
