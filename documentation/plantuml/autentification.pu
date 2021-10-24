@@ -1,7 +1,5 @@
 @startuml 
-user --> (Login)
-user --> (Forgot password)
-user -->(Login Facebook)
-
-
+"User" as User
+User --> (Login)
+User --> (Forgot password)
 @enduml
