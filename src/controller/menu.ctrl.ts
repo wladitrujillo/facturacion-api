@@ -14,8 +14,7 @@ class MenuController {
 
     retrieveMenu = async (req: Request, res: Response) => {
         try {
-            let role = res.locals.jwtPayload.role;
-            let menu = await this._service.retrieveMenu(role);
+            let menu = await this._service.retrieveMenu('ADMIN');
             res.status(200).send(menu);
         }
         catch (e) {

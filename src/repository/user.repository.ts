@@ -9,7 +9,7 @@ class UserRepository extends RepositoryBase<IUser> {
     getByEmail(email: string): Promise<IUser> {
         return new Promise((resolve, reject) => {
 
-            User.find({ email }, (error: any, result: IUser) => {
+            User.findOne({ email }, (error: any, result: IUser) => {
                 if (error) reject(error)
                 else resolve(result)
             });
@@ -20,7 +20,7 @@ class UserRepository extends RepositoryBase<IUser> {
     getUserById(_id: string): Promise<IUser> {
         return new Promise((resolve, reject) => {
 
-            User.find({ _id }, (error: any, result: IUser) => {
+            User.findOne({ _id }, (error: any, result: IUser) => {
                 if (error) reject(error)
                 else resolve(result)
             });

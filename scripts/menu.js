@@ -87,12 +87,12 @@ let createMenuItems = async () => {
 
     let invoicing =
         [
-            { path: 'product', title: 'Products', ab: 'P', roles: ['SUPERADMIN'] },
-            { path: 'customer', title: 'Customers', ab: 'C', roles: ['SUPERADMIN'] },
-            { path: 'establishment', title: 'Establishments', ab: 'E', roles: ['SUPERADMIN'] },
+            { path: 'product', title: 'Products', ab: 'P', roles: ['SUPERADMIN', 'ADMIN'] },
+            { path: 'customer', title: 'Customers', ab: 'C', roles: ['SUPERADMIN', 'ADMIN'] },
+            { path: 'establishment', title: 'Establishments', ab: 'E', roles: ['SUPERADMIN', 'ADMIN'] },
             { path: 'invoice', title: 'Invoices', ab: 'I', roles: ['SUPERADMIN', 'ADMIN', 'USER'] },
-            { path: 'user', title: 'Users', ab: 'U', roles: ['SUPERADMIN'] },
-            { path: 'query-invoice', title: 'Consulta Facturas', ab: 'U', roles: ['SUPERADMIN'] }
+            { path: 'user', title: 'Users', ab: 'U', roles: ['SUPERADMIN', 'ADMIN'] },
+            { path: 'query-invoice', title: 'Consulta Facturas', ab: 'U', roles: ['SUPERADMIN', 'ADMIN'] }
         ];
 
     await createChildrens(parent, invoicing);

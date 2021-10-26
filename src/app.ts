@@ -66,8 +66,7 @@ class App {
   //Connecting to our MongoDB database
   private setMongoConfig() {
     mongoose.Promise = global.Promise;
-    mongoose.connect(process.env.DATABASE || '', {
-    });
+    mongoose.connect(process.env.DATABASE || '', {});
   }
 }
 
