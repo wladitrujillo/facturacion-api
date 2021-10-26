@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "cp .env.prod dist/.env && cp -R src/config dist/ && cp package.json dist/",
+    "copy": "cp .env dist/ && cp -R src/config dist/ && cp package.json dist/",
     "start": "nodemon",
     "build": "tsc && npm run copy"
   },
