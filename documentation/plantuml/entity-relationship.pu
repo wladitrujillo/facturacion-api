@@ -114,29 +114,18 @@ entity "WayToPay" as WayToPay {
 
 }
 
-Role ||..o{
-  User
-  User ||..o{
-    Establishment
-    User |o..o{
-      Customer
-      User ||..o{
-        Product
-        User ||..o{
-          Invoice
-          Establishment ||..o{
-            Branch
-            Branch |o..o{
-              Invoice
-              Invoice |o..o{
-                InvoiceDetail
-                Customer |o..o{
-                  Invoice
-                  Product |o..o{
-                    InvoiceDetail
-                    WayToPay |o..o{
-                      Invoice
+Role ||..o{User
+User ||..o{Establishment
+User |o..o{Customer
+User ||..o{Product
+User ||..o{Invoice
+Establishment ||..o{Branch
+Branch |o..o{Invoice
+Invoice |o..o{InvoiceDetail
+Customer |o..o{Invoice
+Product |o..o{InvoiceDetail
+WayToPay |o..o{Invoice
 
 
 
-                      @enduml
+@enduml
