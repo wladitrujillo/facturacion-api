@@ -20,13 +20,6 @@ class AuthService {
 
     async register(user: IUser, password: string) {
 
-        let role = await this._roleRepository.findById('SUPERADMIN');
-
-        if (!role)
-            throw new ServiceException(404, "Role SUPERADMIN not found");
-
-
-        user.role = role;
         user.hash = bcrypt.hashSync(password, 10);
 
         user.active = true;
@@ -57,7 +50,6 @@ class AuthService {
         const secret = process.env.SECRET || '';
         const dataStoredInToken = {
             sub: user._id,
-            role: user.role
         }
 
         let token = {
