@@ -3,18 +3,14 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { UserRoutes } from './routes/user.route';
-import { ProductRoutes } from './routes/product.route';
-import { CustomerRoutes } from './routes/customer.route';
 import { AuthRoutes } from './routes/auth.route';
 import { checkJwt } from "./controller/check-jwt";
 import { configure } from 'log4js';
 import path from 'path';
 import { config } from "dotenv"
-import { EstablishmentRoutes } from './routes/establishment.route';
 import { RoleRoutes } from './routes/role.route';
 import { MenuRoutes } from './routes/menu.route';
 import { TableRoutes } from './routes/table.route';
-import { InvoiceRoutes } from './routes/invoice.route';
 
 class App {
 
@@ -31,10 +27,6 @@ class App {
 
   private routes(): void {
     this.app.use("/api/user", [checkJwt], new UserRoutes().router);
-    this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
-    this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
-    this.app.use("/api/establishment", [checkJwt], new EstablishmentRoutes().router);
-    this.app.use("/api/invoice", [checkJwt], new InvoiceRoutes().router);
     this.app.use("/api/table", [checkJwt], new TableRoutes().router);
     this.app.use("/api/menu", [checkJwt], new MenuRoutes().router);
     this.app.use("/api/role", [checkJwt], new RoleRoutes().router);
