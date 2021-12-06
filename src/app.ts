@@ -11,10 +11,8 @@ import { configure } from 'log4js';
 import path from 'path';
 import { config } from "dotenv"
 import { EstablishmentRoutes } from './routes/establishment.route';
-import { RoleRoutes } from './routes/role.route';
-import { MenuRoutes } from './routes/menu.route';
-import { TableRoutes } from './routes/table.route';
 import { InvoiceRoutes } from './routes/invoice.route';
+import { AdminRoutes } from './routes/admin.route';
 
 class App {
 
@@ -35,9 +33,7 @@ class App {
     this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
     this.app.use("/api/establishment", [checkJwt], new EstablishmentRoutes().router);
     this.app.use("/api/invoice", [checkJwt], new InvoiceRoutes().router);
-    this.app.use("/api/table", [checkJwt], new TableRoutes().router);
-    this.app.use("/api/menu", [checkJwt], new MenuRoutes().router);
-    this.app.use("/api/role", [checkJwt], new RoleRoutes().router);
+    this.app.use("/api/admin", [checkJwt], new AdminRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
 
   }

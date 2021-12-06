@@ -31,9 +31,9 @@ export class UserController extends BaseController<IUser>{
             let objectFound = await new UserService().getUserById(res.locals.jwtPayload.sub);
             res.send(objectFound);
         }
-        catch (e) {
-            logger.error(e);
-            res.send(e?.message);
+        catch (error) {
+            logger.error(error);
+            res.send(error?.message);
 
         }
     }
@@ -41,7 +41,7 @@ export class UserController extends BaseController<IUser>{
     public uploadProfilePicture = (req: Request, res: Response) => {
 
         let upload = multer({ storage: storage, fileFilter: this.imageFilter }).single('upload');
-        upload(req, res, function (err:any) {
+        upload(req, res, function (err: any) {
 
             // req.file contains information of uploaded file
             // req.body contains information of text fields, if there were any

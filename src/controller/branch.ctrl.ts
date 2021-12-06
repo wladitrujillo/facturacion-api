@@ -20,15 +20,15 @@ class BranchController extends BaseController<IBranch> {
 
             let objectParam: IBranch = <IBranch>req.body;
 
-            
+
             objectParam.establishment = req.params.establishmentId;
 
             let objectCreated = await this._service.create(objectParam);
             res.send(objectCreated);
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }
@@ -42,11 +42,11 @@ class BranchController extends BaseController<IBranch> {
             res.header('X-Total-Count', response.total);
             res.send(response.data);
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }
 }
-export = BranchController;    
+export = BranchController;

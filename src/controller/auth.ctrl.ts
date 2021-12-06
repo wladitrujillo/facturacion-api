@@ -17,11 +17,11 @@ class AuthController {
             let newUser = await new AuthService().register(user, req.body.password);
             res.send(newUser);
         }
-        catch (e) {
-            logger.error(e);
-            logger.error("Code ====>>", e.code);
-            logger.error("Message ====>>", e.message);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            logger.error("Code ====>>", error.code);
+            logger.error("Message ====>>", error.message);
+            res.status(500).send(error.message);
         }
     }
 
@@ -32,13 +32,12 @@ class AuthController {
         try {
             var email: string = req.body.email;
             var password: string = req.body.password;
-            var enterprise: string = req.body.enterprise;
             let auth = await new AuthService().authenticate(email, password);
             res.send(auth);
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }

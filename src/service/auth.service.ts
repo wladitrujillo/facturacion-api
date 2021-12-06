@@ -5,25 +5,23 @@ import jwt = require('jsonwebtoken');
 import bcrypt from "bcryptjs";
 import ServiceException = require("./service.exception");
 
+import { getLogger } from 'log4js';
+const logger = getLogger("AuthService");
 
 class AuthService {
 
     private _userRepository: UserRepository;
-    private _roleRepository: RoleRepository;
+    private roleRepository: RoleRepository;
 
     constructor() {
-
         this._userRepository = new UserRepository();
-        this._roleRepository = new RoleRepository();
-
+        this.roleRepository = new RoleRepository();
     }
 
     async register(user: IUser, password: string) {
-
         user.hash = bcrypt.hashSync(password, 10);
-
         user.active = true;
-
+        user.role = 'USER';
         return this._userRepository.create(user);
     }
 
@@ -32,13 +30,13 @@ class AuthService {
         let user: IUser = await this._userRepository.getByEmail(email);
 
         if (!user)
-            throw new ServiceException(404, "Usuario no econtrado");
+            throw new ServiceException(403, "Ingreso no permitido");
 
         if (!user.active)
-            throw new ServiceException(403, "Usuario no esta activo");
+            throw new ServiceException(403, "Ingreso no permitido");
 
         if (!bcrypt.compareSync(password, String(user.hash)))
-            throw new ServiceException(403, "Password invalido");
+            throw new ServiceException(403, "Ingreso no permitido");
 
         let token = this.createToken(user);
 
@@ -50,6 +48,7 @@ class AuthService {
         const secret = process.env.SECRET || '';
         const dataStoredInToken = {
             sub: user._id,
+            role: user.role
         }
 
         let token = {
