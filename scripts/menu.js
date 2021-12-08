@@ -90,7 +90,7 @@ let createMenuItems = async () => {
             { path: 'product', title: 'Products', ab: 'P', roles: ['SUPERADMIN', 'ADMIN'] },
             { path: 'customer', title: 'Customers', ab: 'C', roles: ['SUPERADMIN', 'ADMIN'] },
             { path: 'establishment', title: 'Establishments', ab: 'E', roles: ['SUPERADMIN', 'ADMIN'] },
-            { path: 'invoice', title: 'Invoices', ab: 'I', roles: ['SUPERADMIN', 'ADMIN', 'USER'] },
+            { path: 'invoice', title: 'Invoices', ab: 'I', roles: ['SUPERADMIN', 'ADMIN'] },
             { path: 'user', title: 'Users', ab: 'U', roles: ['SUPERADMIN', 'ADMIN'] },
             { path: 'query-invoice', title: 'Consulta Facturas', ab: 'U', roles: ['SUPERADMIN', 'ADMIN'] }
         ];

@@ -17,9 +17,8 @@ if (!mongoDB || !mongoDB.startsWith('mongodb')) {
 
 const mongoose = require('mongoose');
 
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB, {});
 mongoose.Promise = global.Promise;
-mongoose.set('useCreateIndex', true);
 const db = mongoose.connection;
 
 db.on('connected', () => console.log("Connection to database successfull"));
@@ -28,14 +27,9 @@ db.on('disconnected', () => console.log("Disconnected from database"));
 
 
 const Role = require('./scripts/role');
-
 const Menu = require('./scripts/menu');
-
 const Catalog = require('./scripts/catalog');
-
 const Tax = require('./scripts/tax');
-
-
 
 let fillData = async () => {
 
@@ -43,8 +37,6 @@ let fillData = async () => {
   await Menu.createMenuItems();
   await Catalog.createCatalogs();
   await Tax.createTaxValues();
-
-
   // All done, disconnect from database
   mongoose.connection.close();
 }

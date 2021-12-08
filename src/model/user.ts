@@ -1,5 +1,6 @@
 import { Document, Schema, Model, model } from "mongoose";
 export interface IUser extends Document {
+    role: String;
     firstName: string;
     lastName: string;
     email: string;
@@ -15,6 +16,11 @@ export interface IUser extends Document {
 }
 
 let UserSchema = new Schema({
+    role: {
+        type: String,
+        ref: 'Role',
+        required: true
+    },
     firstName: {
         type: String,
         required: false,
