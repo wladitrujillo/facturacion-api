@@ -28,6 +28,7 @@ class App {
   }
 
   private routes(): void {
+    // Rutas con autenticacion de token
     this.app.use("/api/user", [checkJwt], new UserRoutes().router);
     this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
     this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
