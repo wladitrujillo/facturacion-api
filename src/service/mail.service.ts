@@ -10,13 +10,13 @@ export class EmailService {
         AWS.config.credentials = credentials;
     }
 
-    sendMail(to: string, subject: string, content: string) {
-        logger.debug('Start sendEmail to:', to);
-        // Create sendEmail params 
+    sendMail(email: string, subject: string, content: string) {
+        logger.debug('Inicia el envío del correo:', email);
+        // Creacion de parámetros del envío del correo
         let params = {
             Destination: { /* required */
                 CcAddresses: [],
-                ToAddresses: [to]
+                ToAddresses: [email]
             },
             Message: { /* required */
                 Body: { /* required */
@@ -38,10 +38,10 @@ export class EmailService {
             ReplyToAddresses: [],
         };
 
-        // Create the promise and SES service object
+        // Crear la promesa del envío del correo
         var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
 
-        // Handle promise's fulfilled/rejected states
+        // Manejo de la prosesa se completo o rechazó
         sendPromise.then(
             function (data: any) {
                 console.log(data);
