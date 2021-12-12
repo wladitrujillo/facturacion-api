@@ -25,7 +25,7 @@ class AuthController {
         }
     }
 
-   
+
 
     static authenticate = async (req: Request, res: Response) => {
         logger.debug("Iniciar Autentificación");
@@ -42,7 +42,29 @@ class AuthController {
         }
     }
 
+    static forgotPassword = async (req: Request, res: Response) => {
+        logger.debug("Iniciar forgotPassword");
+        try {
+            await new AuthService().forgotPassword(req.body.email);
+            res.send();
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+        }
+    }
 
+    static resetPassword = async (req: Request, res: Response) => {
+        logger.debug("Iniciar resetPassword");
+        try {
+            await new AuthService().resetPassword(req.body.token, req.body.password);
+            res.send();
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+        }
+    }
 
 }
-export = AuthController;    
+export = AuthController;

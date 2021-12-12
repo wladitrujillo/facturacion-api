@@ -51,6 +51,25 @@ class AuthService {
         //genera el token
         return token;
     }
+
+    async forgotPassword(email: string) {
+        let user: IUser = await this._userRepository.getByEmail(email);
+        if (!user || !user.active)
+            throw new ServiceException(403, 'No autorizado')
+
+        let token = this.forgotPasswordToken(user);
+
+        this.emailService.sendMail(email, 'Cambia tu contraseña', `Cambia tu contraseña en este <a href='http://localhost:4200/#/auth/reset-password/${token}'>enlace</a>`);
+    }
+
+    async resetPassword(token: string, password: string) {
+        let jwtPayload = <any>jwt.verify(token, process.env.SECRET || '');
+        let user = await this._userRepository.getUserById(jwtPayload.sub);
+        user.hash = bcrypt.hashSync(password, 10);
+        await this._userRepository.update(user._id, user);
+    }
+
+
     //Crea el token válido por un día en el cual consta el rol y id del usuario
     private createToken(user: IUser) {
         //genera una variable pero es constante la misma que no cambia su valor
@@ -67,6 +86,15 @@ class AuthService {
             token: jwt.sign(dataStoredInToken, secret, { expiresIn })
         };
         return token;
+    }
+
+    private forgotPasswordToken(user: IUser) {
+        const expiresIn = 60 * 5; //60 seg x 5 min 
+        const secret = process.env.SECRET || '';
+        const dataStoredInToken = {
+            sub: user._id,
+        }
+        return jwt.sign(dataStoredInToken, secret, { expiresIn });
     }
 }
 Object.seal(AuthService);
