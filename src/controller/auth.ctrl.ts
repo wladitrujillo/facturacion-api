@@ -11,7 +11,7 @@ const logger = getLogger("AuthController");
 class AuthController {
 
     static register = async (req: Request, res: Response) => {
-        logger.debug("Start register");
+        logger.debug("Iniciar Registro");
         try {
             let user: IUser = <IUser>req.body;
             let newUser = await new AuthService().register(user, req.body.password);
@@ -28,7 +28,7 @@ class AuthController {
    
 
     static authenticate = async (req: Request, res: Response) => {
-        logger.debug("Start authenticate");
+        logger.debug("Iniciar Autentificación");
         try {
             var email: string = req.body.email;
             var password: string = req.body.password;
