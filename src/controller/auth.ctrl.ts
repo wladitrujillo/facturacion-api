@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import AuthService = require("../service/auth.service");
 import { IUser } from "../model/user";
 import { getLogger } from 'log4js';
-import { emit } from "cluster";
 
 const logger = getLogger("AuthController");
 

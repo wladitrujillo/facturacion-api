@@ -1,27 +1,21 @@
+//librerias externas
 import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { UserRoutes } from './routes/user.route';
-import { ProductRoutes } from './routes/product.route';
-import { CustomerRoutes } from './routes/customer.route';
-import { AuthRoutes } from './routes/auth.route';
-import { checkJwt } from "./controller/check-jwt";
-import { configure } from 'log4js';
-import path from 'path';
-import { config } from "dotenv"
-import { EstablishmentRoutes } from './routes/establishment.route';
-import { InvoiceRoutes } from './routes/invoice.route';
-import { AdminRoutes } from './routes/admin.route';
 
+//configuraciones
+import { configure } from 'log4js';
+import { config } from "dotenv"
+
+//rutas
+import { AuthRoutes } from './routes/auth.route';
 class App {
 
   public app: Application;
 
   constructor() {
     this.app = express();
-    //static files
-    this.app.use(express.static(path.join(__dirname, 'public')));
     this.setConfig();
     this.setMongoConfig();
     this.routes();
@@ -29,12 +23,6 @@ class App {
 
   private routes(): void {
     // Rutas con autenticacion de token
-    this.app.use("/api/user", [checkJwt], new UserRoutes().router);
-    this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
-    this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
-    this.app.use("/api/establishment", [checkJwt], new EstablishmentRoutes().router);
-    this.app.use("/api/invoice", [checkJwt], new InvoiceRoutes().router);
-    this.app.use("/api/admin", [checkJwt], new AdminRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
 
   }
@@ -54,10 +42,6 @@ class App {
       res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
       next();
     });
-    // use JWT auth to secure the api
-    //this.app.use('/api', expressJwt({ secret: process.env.SECRET || 'YYEHDf432EY9742', requestProperty: 'auth' })
-    //.unless({ path: ['/api/user/authenticate', '/api/user/register', '/api/user/forgot-password', /^\/api\/user\/reset-password\/.*/, '/api/user/password-request'] }));
-
   }
 
   //Connecting to our MongoDB database

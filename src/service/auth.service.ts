@@ -1,6 +1,5 @@
 import { IUser } from "../model/user";
 import UserRepository = require("../repository/user.repository");
-import RoleRepository = require("../repository/role.repository");
 import jwt = require('jsonwebtoken');
 import bcrypt from "bcryptjs";
 import ServiceException = require("./service.exception");
@@ -12,12 +11,10 @@ const logger = getLogger("AuthService");
 class AuthService {
 
     private _userRepository: UserRepository;
-    private roleRepository: RoleRepository;
     private emailService: EmailService;
 
     constructor() {
         this._userRepository = new UserRepository();
-        this.roleRepository = new RoleRepository();
         this.emailService = new EmailService();
     }
     //Registro del usuario
