@@ -28,7 +28,7 @@ class AuthService {
         await this._userRepository.create(user);
         this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', 'Tu cuenta fue creada exitosamente');
     }
-
+    //Validacion del usuario y contraseña
     async authenticate(email: string, password: string) {
 
         let user: IUser = await this._userRepository.getByEmail(email);
@@ -48,7 +48,7 @@ class AuthService {
     }
 
     private createToken(user: IUser) {
-        const expiresIn = 60 * 60 * 24; // 24 hours
+        const expiresIn = 60 * 60 * 24; //60 seg x 60 min x 24 hours
         const secret = process.env.SECRET || '';
         const dataStoredInToken = {
             sub: user._id,

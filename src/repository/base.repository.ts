@@ -19,7 +19,7 @@ class RepositoryBase<T extends mongoose.Document>  {
         })
 
     }
-
+    //Consulta segun el criterio de busqueda con paginacion segun la busqueda
     retrieve(criteria: any, pageRequest: PageRequest) {
 
 
