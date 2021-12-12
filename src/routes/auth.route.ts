@@ -24,7 +24,7 @@ export class AuthRoutes {
             .post(AuthController.forgotPassword);
 
         this.router.route("/reset-password")
-            .put(AuthController.resetPassword)
+            .put(AuthController.resetPassword);
 
     }
 }
