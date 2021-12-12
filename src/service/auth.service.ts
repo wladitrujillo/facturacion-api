@@ -6,23 +6,27 @@ import bcrypt from "bcryptjs";
 import ServiceException = require("./service.exception");
 
 import { getLogger } from 'log4js';
+import { EmailService } from "./mail.service";
 const logger = getLogger("AuthService");
 
 class AuthService {
 
     private _userRepository: UserRepository;
     private roleRepository: RoleRepository;
+    private emailService: EmailService;
 
     constructor() {
         this._userRepository = new UserRepository();
         this.roleRepository = new RoleRepository();
+        this.emailService = new EmailService();
     }
 
     async register(user: IUser, password: string) {
         user.hash = bcrypt.hashSync(password, 10);
         user.active = true;
         user.role = 'USER';
-        return this._userRepository.create(user);
+        await this._userRepository.create(user);
+        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', 'Tu cuenta fue creada exitosamente');
     }
 
     async authenticate(email: string, password: string) {

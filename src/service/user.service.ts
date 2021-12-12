@@ -3,7 +3,7 @@ import { IUser } from "../model/user";
 import CrudService from "./crud.service";
 import bcrypt from "bcryptjs";
 import { PageRequest } from "../model/page-request";
-import { GMailService } from './mail.service';
+import { EmailService } from './mail.service';
 import { getLogger } from 'log4js';
 
 const logger = getLogger("UserService");
@@ -22,10 +22,10 @@ class UserService extends CrudService<IUser> {
   async create(item: IUser): Promise<IUser> {
     logger.debug("Start Create user");
 
-    let gmailService = new GMailService();
+    let gmailService = new EmailService();
     let password = "test123";
     await gmailService.sendMail(
-      item.email, 
+      item.email,
       'Hello',
       'Hello from gmailService your password is: ' + password);
     item.hash = bcrypt.hashSync(password, 10);
