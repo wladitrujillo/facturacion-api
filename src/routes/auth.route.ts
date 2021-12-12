@@ -17,9 +17,14 @@ export class AuthRoutes {
         this.router.route("/login")
             .put(AuthController.authenticate);
 
-
         this.router.route("/register")
             .post(AuthController.register);
+
+        this.router.route("/forgot-password")
+            .post(AuthController.forgotPassword);
+
+        this.router.route("/reset-password")
+            .put(AuthController.resetPassword)
 
     }
 }
