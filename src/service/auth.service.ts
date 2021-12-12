@@ -26,7 +26,7 @@ class AuthService {
         user.active = true;
         user.role = 'USER';
         await this._userRepository.create(user);
-        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', 'Tu cuenta fue creada exitosamente');
+        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Tu cuenta fue creada exitosamente</p>`);
     }
     //Validacion del usuario y contraseña
     async authenticate(email: string, password: string) {

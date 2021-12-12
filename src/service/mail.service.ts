@@ -22,7 +22,7 @@ export class EmailService {
                 Body: { /* required */
                     Html: {
                         Charset: "UTF-8",
-                        Data: "HTML_FORMAT_BODY"
+                        Data: content
                     },
                     Text: {
                         Charset: "UTF-8",
