@@ -7,9 +7,11 @@ import mongoose from 'mongoose';
 //configuraciones
 import { configure } from 'log4js';
 import { config } from "dotenv"
+import { checkJwt } from "./controller/check-jwt";
 
 //rutas
 import { AuthRoutes } from './routes/auth.route';
+import { UserRoutes } from './routes/user.route';
 class App {
 
   public app: Application;
@@ -23,6 +25,7 @@ class App {
 
   private routes(): void {
     // Rutas con autenticacion de token
+    this.app.use("/api/user", [checkJwt], new UserRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
 
   }
