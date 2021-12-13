@@ -1,35 +1,31 @@
+//librerias externas
 import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { UserRoutes } from './routes/user.route';
-import { AuthRoutes } from './routes/auth.route';
-import { checkJwt } from "./controller/check-jwt";
-import { configure } from 'log4js';
-import path from 'path';
-import { config } from "dotenv"
-import { RoleRoutes } from './routes/role.route';
-import { MenuRoutes } from './routes/menu.route';
-import { TableRoutes } from './routes/table.route';
 
+//configuraciones
+import { configure } from 'log4js';
+import { config } from "dotenv"
+import { checkJwt } from "./controller/check-jwt";
+
+//rutas
+import { AuthRoutes } from './routes/auth.route';
+import { UserRoutes } from './routes/user.route';
 class App {
 
   public app: Application;
 
   constructor() {
     this.app = express();
-    //static files
-    this.app.use(express.static(path.join(__dirname, 'public')));
     this.setConfig();
     this.setMongoConfig();
     this.routes();
   }
 
   private routes(): void {
+    // Rutas con autenticacion de token
     this.app.use("/api/user", [checkJwt], new UserRoutes().router);
-    this.app.use("/api/table", [checkJwt], new TableRoutes().router);
-    this.app.use("/api/menu", [checkJwt], new MenuRoutes().router);
-    this.app.use("/api/role", [checkJwt], new RoleRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
 
   }
@@ -49,10 +45,6 @@ class App {
       res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
       next();
     });
-    // use JWT auth to secure the api
-    //this.app.use('/api', expressJwt({ secret: process.env.SECRET || 'YYEHDf432EY9742', requestProperty: 'auth' })
-    //.unless({ path: ['/api/user/authenticate', '/api/user/register', '/api/user/forgot-password', /^\/api\/user\/reset-password\/.*/, '/api/user/password-request'] }));
-
   }
 
   //Connecting to our MongoDB database

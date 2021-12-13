@@ -25,9 +25,9 @@ abstract class BaseController<T extends mongoose.Document> {
             let objectCreated = await this._service.create(objectParam);
             res.send(objectCreated);
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }
@@ -39,9 +39,9 @@ abstract class BaseController<T extends mongoose.Document> {
             let objectUpdated = await this._service.update(req.params._id, objectParam);
             res.send(objectUpdated);
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }
@@ -51,9 +51,9 @@ abstract class BaseController<T extends mongoose.Document> {
             await this._service.delete(req.params._id);
             res.send({ "success": "success" })
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }
@@ -68,9 +68,9 @@ abstract class BaseController<T extends mongoose.Document> {
             res.header('X-Total-Count', response.total);
             res.send(response.data);
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }
@@ -81,13 +81,13 @@ abstract class BaseController<T extends mongoose.Document> {
             let objectFound = await this._service.findById(req.params._id);
             res.send(objectFound);
         }
-        catch (e) {
-            logger.error(e);
-            res.status(500).send(e.message);
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
 
         }
     }
 
 
 }
-export = BaseController;    
+export = BaseController;

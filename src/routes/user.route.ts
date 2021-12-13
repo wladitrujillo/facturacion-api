@@ -16,9 +16,6 @@ export class UserRoutes {
         let controller = new UserController();
         this.router.route("/profile-info")
             .get(controller.profileInfo);
-        this.router.route("/profile-picture")
-            .post(controller.uploadProfilePicture)
-            .get(controller.getProfilePicture);
 
         this.router.route("/")
             .get(controller.retrieve)

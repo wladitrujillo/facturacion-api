@@ -15,11 +15,16 @@ export class AuthRoutes {
     routes() {
 
         this.router.route("/login")
-            .post(AuthController.authenticate);
-
+            .put(AuthController.authenticate);
 
         this.router.route("/register")
             .post(AuthController.register);
+
+        this.router.route("/forgot-password")
+            .post(AuthController.forgotPassword);
+
+        this.router.route("/reset-password")
+            .put(AuthController.resetPassword);
 
     }
 }
