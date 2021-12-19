@@ -23,10 +23,7 @@ export class AdminRoutes {
         this.router.route("/role")
             .get(adminController.getRoles);
 
-        this.router.route("/table")
-            .get(adminController.getTables);
-
-        this.router.route("/table/:tableId/catalog")
-            .get(adminController.getCatalogByTableId);
+        this.router.route("/catalog/:name")
+            .get(adminController.getCatalogByName);
     }
 }

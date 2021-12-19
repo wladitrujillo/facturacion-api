@@ -10,7 +10,7 @@ var mongoDB = userArgs[0];
 
 if (!mongoDB || !mongoDB.startsWith('mongodb')) {
   console.error(`ERROR: You need to specify a valid mongodb URL as the first argument 
-  e.g.: node populatedb mongodb://localhost:27017/invoiceweb`);
+  e.g.: node populatedb mongodb://localhost:27017/facturacion`);
   return
 }
 
@@ -33,10 +33,10 @@ const Tax = require('./scripts/tax');
 
 let fillData = async () => {
 
-  await Role.createRoles();
-  await Menu.createMenuItems();
+  //await Role.createRoles();
+  //await Menu.createMenuItems();
   await Catalog.createCatalogs();
-  await Tax.createTaxValues();
+  //await Tax.createTaxValues();
   // All done, disconnect from database
   mongoose.connection.close();
 }
