@@ -8,7 +8,6 @@ import multer = require('multer');
 import path from "path";
 import fs from 'fs';
 
-
 const logger = getLogger("UserController");
 
 export class UserController extends BaseController<IUser>{
@@ -25,8 +24,6 @@ export class UserController extends BaseController<IUser>{
         catch (error) {
             logger.error(error);
             res.send(error?.message);
-
         }
     }
-
 }

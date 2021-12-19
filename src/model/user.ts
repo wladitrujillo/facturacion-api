@@ -77,10 +77,6 @@ let UserSchema = new Schema({
         required: false
     }
 });
-
-
 UserSchema.index({ enterprise: 1, email: 1 }, { unique: true });
-
-//Creating our model
+//Creando un modelo
 export const User: Model<IUser> = model<IUser>("User", UserSchema);
-

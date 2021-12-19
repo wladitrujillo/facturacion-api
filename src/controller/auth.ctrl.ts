@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
-
 import AuthService = require("../service/auth.service");
 import { IUser } from "../model/user";
 import { getLogger } from 'log4js';
 
 const logger = getLogger("AuthController");
-
 
 class AuthController {
 
@@ -23,8 +21,6 @@ class AuthController {
             res.status(500).send(error.message);
         }
     }
-
-
 
     static authenticate = async (req: Request, res: Response) => {
         logger.debug("Iniciar Autentificación");
@@ -64,9 +60,5 @@ class AuthController {
             res.status(500).send(error.message);
         }
     }
-
-
-
-
 }
 export = AuthController;

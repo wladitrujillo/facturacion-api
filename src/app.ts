@@ -15,11 +15,11 @@ import { UserRoutes } from './routes/user.route';
 class App {
 
   public app: Application;
-
+  //inicializa los métodos
   constructor() {
     this.app = express();
     this.setConfig();
-    this.setMongoConfig();
+    this.setMongoConfig(); //conecta a la base de datos
     this.routes();
   }
 
@@ -31,14 +31,18 @@ class App {
   }
 
   private setConfig() {
-    //initializations
+    //inicializacion del log
     configure(__dirname + '/config/log4js.json');
+    //configura las variabes de entorno con respecto a la base de datos
     config({ path: '.env' });
+    //limita las peticiones a 50mb
     this.app.use(bodyParser.json({ limit: '50mb' }));
     this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+    //habilita el cors(puertos)
     this.app.use(cors());
-    //Seteo en middleware cabecera de respuesta
+    //Seteo de la cabecera de respuesta
     this.app.use((req, res, next) => {
+      //Configura las cabeceras de la app
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, UPDATE, DELETE');
       res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
@@ -47,7 +51,7 @@ class App {
     });
   }
 
-  //Connecting to our MongoDB database
+  //Conexión a MongoDB database
   private setMongoConfig() {
     mongoose.Promise = global.Promise;
     mongoose.connect(process.env.DATABASE || '', {});

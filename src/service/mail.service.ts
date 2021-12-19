@@ -9,7 +9,7 @@ export class EmailService {
         let credentials = new AWS.SharedIniFileCredentials({ profile: 'ses-smtp-user.20211211-193956' });
         AWS.config.credentials = credentials;
     }
-
+    //Método que envía al correo
     sendMail(email: string, subject: string, content: string) {
         logger.debug('Inicia el envío del correo:', email);
         // Creacion de parámetros del envío del correo
@@ -38,10 +38,10 @@ export class EmailService {
             ReplyToAddresses: [],
         };
 
-        // Crear la promesa del envío del correo
+        // Crear la promesa del envío del correo en la plataforma AWS
         var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
 
-        // Manejo de la prosesa se completo o rechazó
+        // Manejo de la promesa se completo o rechazó
         sendPromise.then(
             function (data: any) {
                 console.log(data);

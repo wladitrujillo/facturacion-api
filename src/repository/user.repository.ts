@@ -13,7 +13,6 @@ class UserRepository extends RepositoryBase<IUser> {
                 if (error) reject(error)
                 else resolve(result)
             });
-
         });
     }
 
@@ -24,7 +23,6 @@ class UserRepository extends RepositoryBase<IUser> {
                 if (error) reject(error)
                 else resolve(result)
             });
-
         });
     }
 }
