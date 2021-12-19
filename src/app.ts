@@ -12,6 +12,8 @@ import { checkJwt } from "./controller/check-jwt";
 //rutas
 import { AuthRoutes } from './routes/auth.route';
 import { UserRoutes } from './routes/user.route';
+import { AdminRoutes } from './routes/admin.route';
+import { EstablishmentRoutes } from './routes/establishment.route';
 class App {
 
   public app: Application;
@@ -26,6 +28,8 @@ class App {
   private routes(): void {
     // Rutas con autenticacion de token
     this.app.use("/api/user", [checkJwt], new UserRoutes().router);
+    this.app.use("/api/establishment", [checkJwt], new EstablishmentRoutes().router);
+    this.app.use("/api/admin", [checkJwt], new AdminRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
 
   }
