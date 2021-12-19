@@ -60,5 +60,17 @@ class AuthController {
             res.status(500).send(error.message);
         }
     }
+    
+    static activateAccount = async (req: Request, res: Response) => {
+        logger.debug("Iniciar activateAccount");
+        try {
+            await new AuthService().activateAccount(req.params.userId);
+            res.send();
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+        }
+    }
 }
 export = AuthController;

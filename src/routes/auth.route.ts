@@ -26,5 +26,7 @@ export class AuthRoutes {
         this.router.route("/reset-password")
             .put(AuthController.resetPassword);
 
+        this.router.route("/activate-account/:userId")
+            .put(AuthController.activateAccount);
     }
 }
