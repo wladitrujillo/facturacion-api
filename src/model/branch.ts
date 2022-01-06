@@ -43,7 +43,7 @@ let BranchSchema = new Schema({
 
 });
 
-
+//crea indice 
 BranchSchema.index({ establishment: 1, code: 1 }, { unique: true });
 
 export const Branch: Model<IBranch> = model<IBranch>("Branch", BranchSchema);

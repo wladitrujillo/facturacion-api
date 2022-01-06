@@ -1,12 +1,9 @@
 import { Request, Response } from "express";
-
 import AuthService = require("../service/auth.service");
 import { IUser } from "../model/user";
 import { getLogger } from 'log4js';
-import { emit } from "cluster";
 
 const logger = getLogger("AuthController");
-
 
 class AuthController {
 
@@ -24,8 +21,6 @@ class AuthController {
             res.status(500).send(error.message);
         }
     }
-
-
 
     static authenticate = async (req: Request, res: Response) => {
         logger.debug("Iniciar Autentificación");
@@ -65,6 +60,17 @@ class AuthController {
             res.status(500).send(error.message);
         }
     }
-
+    
+    static activateAccount = async (req: Request, res: Response) => {
+        logger.debug("Iniciar activateAccount");
+        try {
+            await new AuthService().activateAccount(req.params.userId);
+            res.send();
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+        }
+    }
 }
 export = AuthController;

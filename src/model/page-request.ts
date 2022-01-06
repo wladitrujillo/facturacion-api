@@ -15,5 +15,4 @@ export class PageRequest {
         this.sort = request.query.sort;
 
     }
-
 }

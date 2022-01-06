@@ -14,7 +14,6 @@ export class AuthRoutes {
     }
     routes() {
 
-
         this.router.route("/login")
             .put(AuthController.authenticate);
 
@@ -27,6 +26,7 @@ export class AuthRoutes {
         this.router.route("/reset-password")
             .put(AuthController.resetPassword);
 
-
+        this.router.route("/activate-account/:userId")
+            .put(AuthController.activateAccount);
     }
 }

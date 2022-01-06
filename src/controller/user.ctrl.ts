@@ -1,4 +1,3 @@
-
 import UserService = require("../service/user.service");
 import BaseController = require("./base.ctrl");
 import { IUser } from "../model/user";
@@ -8,7 +7,6 @@ import { getLogger } from 'log4js';
 import multer = require('multer');
 import path from "path";
 import fs from 'fs';
-
 
 const logger = getLogger("UserController");
 const storage = multer.diskStorage({
@@ -34,7 +32,6 @@ export class UserController extends BaseController<IUser>{
         catch (error) {
             logger.error(error);
             res.send(error?.message);
-
         }
     }
 

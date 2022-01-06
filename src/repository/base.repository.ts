@@ -17,11 +17,9 @@ class RepositoryBase<T extends mongoose.Document>  {
                 else resolve(result)
             });
         })
-
     }
     //Consulta segun el criterio de busqueda con paginacion segun la busqueda
     retrieve(criteria: any, pageRequest: PageRequest) {
-
 
         let plus = /\+/g;
         let comma = /\,/g;
@@ -73,9 +71,7 @@ class RepositoryBase<T extends mongoose.Document>  {
                 if (error) reject(error)
                 else resolve(result)
             });
-
         });
-
     }
 
     update(_id: mongoose.Types.ObjectId, item: T): Promise<T> {
@@ -86,8 +82,6 @@ class RepositoryBase<T extends mongoose.Document>  {
                 else resolve(result);
             });
         });
-
-
     }
 
     delete(_id: string) {
@@ -97,8 +91,6 @@ class RepositoryBase<T extends mongoose.Document>  {
                 else resolve(_id);
             });
         });
-
-
     }
 
     findById(_id: string): Promise<T> {
@@ -120,8 +112,6 @@ class RepositoryBase<T extends mongoose.Document>  {
             });
         });
     }
-
-
 }
 
 export = RepositoryBase;

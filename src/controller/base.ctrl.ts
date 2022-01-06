@@ -15,7 +15,6 @@ abstract class BaseController<T extends mongoose.Document> {
         this._service = service;
     }
 
-
     create = async (req: Request, res: Response) => {
         logger.debug("Start create");
         try {
@@ -45,6 +44,7 @@ abstract class BaseController<T extends mongoose.Document> {
 
         }
     }
+    
     delete = async (req: Request, res: Response) => {
         logger.debug("Start delete");
         try {

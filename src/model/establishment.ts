@@ -20,7 +20,7 @@ let EstablishmentSchema = new Schema({
     },
     code: {
         type: String,
-        required: true,       
+        required: true,
         trim: true
     },
     address: {
@@ -39,7 +39,8 @@ let EstablishmentSchema = new Schema({
     }
 });
 
-EstablishmentSchema.index({ enterprise: 1, code: 1 }, { unique: true });
+//Crea indice para el codigo
+EstablishmentSchema.index({ code: 1 }, { unique: true });
 
 export const Establishment: Model<IEstablishment> = model<IEstablishment>("Establishment", EstablishmentSchema);
 

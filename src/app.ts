@@ -1,66 +1,68 @@
+//librerias externas
 import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
+
+//configuraciones
+import { configure } from 'log4js';
+import { config } from "dotenv"
+import { checkJwt } from "./controller/check-jwt";
+
+//rutas
+import { AuthRoutes } from './routes/auth.route';
 import { UserRoutes } from './routes/user.route';
+import { AdminRoutes } from './routes/admin.route';
+import { EstablishmentRoutes } from './routes/establishment.route';
 import { ProductRoutes } from './routes/product.route';
 import { CustomerRoutes } from './routes/customer.route';
-import { AuthRoutes } from './routes/auth.route';
-import { checkJwt } from "./controller/check-jwt";
-import { configure } from 'log4js';
-import path from 'path';
-import { config } from "dotenv"
-import { EstablishmentRoutes } from './routes/establishment.route';
 import { InvoiceRoutes } from './routes/invoice.route';
-import { AdminRoutes } from './routes/admin.route';
 
 class App {
 
   public app: Application;
-
+  //inicializa los métodos
   constructor() {
     this.app = express();
-    //static files
-    this.app.use(express.static(path.join(__dirname, 'public')));
     this.setConfig();
-    this.setMongoConfig();
+    this.setMongoConfig(); //conecta a la base de datos
     this.routes();
   }
 
   private routes(): void {
     // Rutas con autenticacion de token
     this.app.use("/api/user", [checkJwt], new UserRoutes().router);
-    this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
-    this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
     this.app.use("/api/establishment", [checkJwt], new EstablishmentRoutes().router);
-    this.app.use("/api/invoice", [checkJwt], new InvoiceRoutes().router);
     this.app.use("/api/admin", [checkJwt], new AdminRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
+    this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
+    this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
+    this.app.use("/api/invoice", [checkJwt], new InvoiceRoutes().router);
 
   }
 
   private setConfig() {
-    //initializations
+    //inicializacion del log
     configure(__dirname + '/config/log4js.json');
+    //configura las variabes de entorno con respecto a la base de datos
     config({ path: '.env' });
+    //limita las peticiones a 50mb
     this.app.use(bodyParser.json({ limit: '50mb' }));
     this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+    //habilita el cors(puertos)
     this.app.use(cors());
-    //Seteo en middleware cabecera de respuesta
+    //Seteo de la cabecera de respuesta
     this.app.use((req, res, next) => {
+      //Configura las cabeceras de la app
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, UPDATE, DELETE');
       res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
       res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
       next();
     });
-    // use JWT auth to secure the api
-    //this.app.use('/api', expressJwt({ secret: process.env.SECRET || 'YYEHDf432EY9742', requestProperty: 'auth' })
-    //.unless({ path: ['/api/user/authenticate', '/api/user/register', '/api/user/forgot-password', /^\/api\/user\/reset-password\/.*/, '/api/user/password-request'] }));
-
   }
 
-  //Connecting to our MongoDB database
+  //Conexión a MongoDB database
   private setMongoConfig() {
     mongoose.Promise = global.Promise;
     mongoose.connect(process.env.DATABASE || '', {});

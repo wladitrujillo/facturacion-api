@@ -5,14 +5,15 @@ export interface IUser extends Document {
     lastName: string;
     email: string;
     phone: Number;
-    createAt: Date;
-    active: Boolean;
-    hash: string;
     urlImage: string;
     country: string;
     city: string;
     postal: string;
     address: string;
+    about: string;
+    createAt: Date;
+    active: Boolean;
+    hash: string;
 }
 
 let UserSchema = new Schema({
@@ -75,13 +76,13 @@ let UserSchema = new Schema({
     address: {
         type: String,
         required: false
+    },
+    about: {
+        type: String,
+        required: false
     }
-
 });
-
-
 UserSchema.index({ enterprise: 1, email: 1 }, { unique: true });
-
-//Creating our model
+//Creando un modelo
 export const User: Model<IUser> = model<IUser>("User", UserSchema);
 

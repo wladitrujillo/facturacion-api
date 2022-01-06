@@ -1,6 +1,5 @@
 import { IUser } from "../model/user";
 import UserRepository = require("../repository/user.repository");
-import RoleRepository = require("../repository/role.repository");
 import jwt = require('jsonwebtoken');
 import bcrypt from "bcryptjs";
 import ServiceException = require("./service.exception");
@@ -12,12 +11,10 @@ const logger = getLogger("AuthService");
 class AuthService {
 
     private _userRepository: UserRepository;
-    private roleRepository: RoleRepository;
     private emailService: EmailService;
 
     constructor() {
         this._userRepository = new UserRepository();
-        this.roleRepository = new RoleRepository();
         this.emailService = new EmailService();
     }
     //Registro del usuario
@@ -25,13 +22,13 @@ class AuthService {
         //encripta la contraseña
         user.hash = bcrypt.hashSync(password, 10);
         //activa el usuario
-        user.active = true;
+        user.active = false;
         //asigna el rol USER
         user.role = 'USER';
         //pregunta a mongodb a crear el usuario
-        await this._userRepository.create(user);
+        let userCreated: any = await this._userRepository.create(user);
         //envia al correo la notificación de la cuenta creada
-        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Tu cuenta fue creada exitosamente</p>`);
+        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Confirma tu correo electrónico en este <a href='http://localhost:4200/#/auth/activate-account/${userCreated._id}'>enlace</a></p>`);
     }
     //Validacion del usuario y contraseña
     async authenticate(email: string, password: string) {
@@ -42,7 +39,7 @@ class AuthService {
             throw new ServiceException(403, "Ingreso no permitido");
         //si el usuario no esta activo
         if (!user.active)
-            throw new ServiceException(403, "Ingreso no permitido");
+            throw new ServiceException(403, "Tu cuenta no esta activa revisa to correo para activar tu cuenta");
         //si la contraseña no coincide 
         if (!bcrypt.compareSync(password, String(user.hash)))
             throw new ServiceException(403, "Ingreso no permitido");
@@ -69,7 +66,11 @@ class AuthService {
         await this._userRepository.update(user._id, user);
     }
 
-
+    async activateAccount(userId: string) {
+        let user = await this._userRepository.getUserById(userId);
+        user.active = true;
+        await this._userRepository.update(user._id, user);
+    }
     //Crea el token válido por un día en el cual consta el rol y id del usuario
     private createToken(user: IUser) {
         //genera una variable pero es constante la misma que no cambia su valor
