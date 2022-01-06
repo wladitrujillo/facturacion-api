@@ -14,6 +14,8 @@ import { AuthRoutes } from './routes/auth.route';
 import { UserRoutes } from './routes/user.route';
 import { AdminRoutes } from './routes/admin.route';
 import { EstablishmentRoutes } from './routes/establishment.route';
+import { ProductRoutes } from './routes/product.route';
+
 class App {
 
   public app: Application;
@@ -31,6 +33,7 @@ class App {
     this.app.use("/api/establishment", [checkJwt], new EstablishmentRoutes().router);
     this.app.use("/api/admin", [checkJwt], new AdminRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
+    this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
 
   }
 
