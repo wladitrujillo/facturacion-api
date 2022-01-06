@@ -2,7 +2,6 @@
 import AdminService = require("../service/admin.service");
 import { Request, Response } from "express";
 import { getLogger } from 'log4js';
-import { PageRequest } from "../model/page-request";
 
 const logger = getLogger("MenuController");
 
@@ -41,12 +40,11 @@ class AdminController {
         }
     }
 
-    getCatalogByTableId = async (req: Request, res: Response) => {
+    getCatalogByName = async (req: Request, res: Response) => {
+
         logger.debug("Start retriveCatalog");
         try {
-            let tableName = req.params.tableId;
-            let table = await this.adminService.getTableByName(tableName);
-            let response: any = await this.adminService.getCatalogByTableId(table._id);
+            let response: any = await this.adminService.getCatalogByName(req.params.name);
             res.send(response);
         }
         catch (error) {
@@ -55,24 +53,6 @@ class AdminController {
 
         }
     }
-
-
-    getTables = async (req: Request, res: Response) => {
-        logger.debug("Start retrive");
-        try {
-
-            let pageRequest = new PageRequest(req);
-            let response: any = await this.adminService.getTables({}, pageRequest);
-            res.header('X-Total-Count', response.total);
-            res.send(response.data);
-        }
-        catch (error) {
-            logger.error(error);
-            res.status(500).send(error.message);
-
-        }
-    }
-
 
 }
 export = AdminController;

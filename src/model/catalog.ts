@@ -1,27 +1,19 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, Schema, Model, model, Types } from "mongoose";
 
 
+interface Item {
+    code: String,
+    value: String
+}
 export interface ICatalog extends Document {
-    table: String;
-    code: String;
-    value: String;
+    name: String;
     active: Boolean;
-
+    items: Types.Array<Item>
 }
 
 
 let CatalogSchema = new Schema({
-    table: {
-        type: Schema.Types.ObjectId,
-        ref: 'Table',
-        required: true
-    },
-    code: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    value: {
+    name: {
         type: String,
         required: true,
         trim: true
@@ -31,12 +23,16 @@ let CatalogSchema = new Schema({
         required: true,
         default: true
 
+    },
+    items: {
+        type: [{ code: String, value: String }],
+        required: true
     }
 
 });
 
 
-CatalogSchema.index({ table: 1, code: 1 }, { unique: true });
+CatalogSchema.index({ name: 1 }, { unique: true });
 
 export const Catalog: Model<ICatalog> = model<ICatalog>("Catalog", CatalogSchema);
 

@@ -1,21 +1,17 @@
-import { PageRequest } from '../model/page-request';
 import CatalogRepository from '../repository/catalog.repository';
 import MenuRepository from '../repository/menu.repository';
 import RoleRepository from '../repository/role.repository';
-import TableRepository from '../repository/table.repository';
 
 class AdminService {
 
     private menuRepository: MenuRepository;
     private roleRepository: RoleRepository;
     private catalogRepository: CatalogRepository;
-    private tableRepository: TableRepository;
 
     constructor() {
         this.menuRepository = new MenuRepository();
         this.roleRepository = new RoleRepository();
         this.catalogRepository = new CatalogRepository();
-        this.tableRepository = new TableRepository();
     }
 
     retrieveByParent = async (parentId: String, roleId: string) => {
@@ -40,17 +36,11 @@ class AdminService {
         return this.roleRepository.retrieve({ _id: { $nin: roles } });
     }
 
-    getCatalogByTableId = (tableId: string) => {
-        return this.catalogRepository.retrieveWithCriteria({ table: tableId });
+    getCatalogByName = (name: string) => {
+        return this.catalogRepository.findOne({ name });
     }
 
-    getTables = (criteria: any, pageRequest: PageRequest) => {
-        return this.tableRepository.retrieve(criteria, pageRequest);
-    }
 
-    getTableByName = (name: string) => {
-        return this.tableRepository.findOne({ name });
-    }
 }
 
 Object.seal(AdminService);

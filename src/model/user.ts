@@ -5,6 +5,7 @@ export interface IUser extends Document {
     lastName: string;
     email: string;
     phone: Number;
+    urlImage: string;
     country: string;
     city: string;
     postal: string;
@@ -55,6 +56,10 @@ let UserSchema = new Schema({
     hash: {
         type: String,
         required: true
+    },
+    urlImage: {
+        type: String,
+        required: false
     },
     country: {
         type: String,

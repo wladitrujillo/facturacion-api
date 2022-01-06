@@ -2,52 +2,24 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-let TableSchema = new Schema({
+let CatalogSchema = new Schema({
     name: {
         type: String,
         required: true,
         trim: true
     },
-
     active: {
         type: Boolean,
         required: true,
         default: true
+    },
+    items: {
+        type: [{ code: String, value: String }],
+        required: true
     }
 });
 
-
-TableSchema.index({ name: 1 }, { unique: true });
-
-let Table = module.exports = mongoose.model('Table', TableSchema);
-
-let CatalogSchema = new Schema({
-    table: {
-        type: Schema.Types.ObjectId,
-        ref: 'Table',
-        required: true
-    },
-    code: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    value: {
-        type: String,
-        required: true,
-        trim: true
-
-    },
-    active: {
-        type: Boolean,
-        required: true,
-        default: true
-
-    }
-})
-
-
-CatalogSchema.index({ table: 1, code: 1 }, { unique: true });
+CatalogSchema.index({ name: 1 }, { unique: true });
 
 let Catalog = module.exports = mongoose.model('Catalog', CatalogSchema);
 
@@ -85,28 +57,20 @@ const period = [
     { code: 'DIAS', value: 'Dias' },
     { code: 'MESES', value: 'Meses' },
     { code: 'ANIOS', value: 'Años' }
-   
+
 
 ]
 
 
 let create = async (name, list) => {
 
-    let tableFound = await Table.findOne({ name: name });
+    let catalogFound = await Catalog.findOne({ name });
 
-    if (tableFound) {
-        await Catalog.deleteMany({ table: tableFound._id });
-
-        await Table.deleteOne({ _id: tableFound._id });
+    if (catalogFound) {
+        await Catalog.deleteMany({ name });
     }
 
-    let table = await Table.create({ name: name });
-
-    for (let catalog of list) {
-        catalog.table = table._id;
-        await Catalog.create(catalog);
-    }
-
+    await Catalog.create({ name: name, active: true, items: list });
 }
 
 
