@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { PageRequest } from "../model/page-request";
 import CrudService = require("../service/crud.service");
-import mongoose = require("mongoose");
+import mongoose from 'mongoose';
 import { getLogger } from 'log4js';
 
 const logger = getLogger("BaseController");
@@ -18,9 +18,8 @@ abstract class BaseController<T extends mongoose.Document> {
     create = async (req: Request, res: Response) => {
         logger.debug("Start create");
         try {
-            req.body.enterprise = res.locals.jwtPayload.enterprise;
+            req.body.company = res.locals.jwtPayload.company;
             let objectParam: T = <T>req.body;
-
             let objectCreated = await this._service.create(objectParam);
             res.send(objectCreated);
         }
@@ -44,7 +43,7 @@ abstract class BaseController<T extends mongoose.Document> {
 
         }
     }
-    
+
     delete = async (req: Request, res: Response) => {
         logger.debug("Start delete");
         try {
@@ -62,9 +61,10 @@ abstract class BaseController<T extends mongoose.Document> {
         logger.debug("Start retrive");
         try {
 
-            let enterprise = res.locals.jwtPayload.enterprise;
+            let company = res.locals.jwtPayload.company;
+            logger.debug('Company:', company)
             let pageRequest = new PageRequest(req);
-            let response: any = await this._service.retrieve({ enterprise: enterprise }, pageRequest);
+            let response: any = await this._service.retrieve({ company }, pageRequest);
             res.header('X-Total-Count', response.total);
             res.send(response.data);
         }

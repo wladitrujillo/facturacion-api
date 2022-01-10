@@ -17,13 +17,7 @@ class BranchController extends BaseController<IBranch> {
     create = async (req: Request, res: Response) => {
         logger.debug("Start create override in BranchController");
         try {
-
-            let objectParam: IBranch = <IBranch>req.body;
-
-
-            objectParam.establishment = req.params.establishmentId;
-
-            let objectCreated = await this._service.create(objectParam);
+            let objectCreated = await new BranchService().createWithEstablishment(req.params.establishmentId, req.body);
             res.send(objectCreated);
         }
         catch (error) {

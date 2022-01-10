@@ -1,5 +1,7 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, Schema, Model, Types, model } from "mongoose";
 export interface IUser extends Document {
+    company: Types.ObjectId;
+    _id: Types.ObjectId;
     role: string;
     firstName: string;
     lastName: string;
@@ -17,6 +19,11 @@ export interface IUser extends Document {
 }
 
 let UserSchema = new Schema({
+    company: {
+        type: Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
     role: {
         type: String,
         ref: 'Role',
@@ -82,7 +89,7 @@ let UserSchema = new Schema({
         required: false
     }
 });
-UserSchema.index({ enterprise: 1, email: 1 }, { unique: true });
+UserSchema.index({ company: 1, email: 1 }, { unique: true });
 //Creando un modelo
 export const User: Model<IUser> = model<IUser>("User", UserSchema);
 

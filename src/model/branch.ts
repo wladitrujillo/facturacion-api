@@ -1,8 +1,7 @@
-import { Document, Schema, Model, model } from "mongoose";
-import { IEstablishment } from "./establishment";
+import { Document, Schema, Model, model, Types } from "mongoose";
 
 export interface IBranch extends Document {
-    establishment: IEstablishment | String;
+    establishment: Types.ObjectId;
     name: string;
     code: string;
     address: string;
@@ -12,7 +11,7 @@ export interface IBranch extends Document {
 
 let BranchSchema = new Schema({
     establishment: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'Establishment',
         required: true
     },
@@ -23,7 +22,7 @@ let BranchSchema = new Schema({
     },
     code: {
         type: String,
-        required: true,        
+        required: true,
         trim: true
     },
     address: {

@@ -1,18 +1,18 @@
-import mongoose = require("mongoose");
+import mongoose, { Model, Types } from "mongoose";
 import { PageRequest } from "../model/page-request";
 
 class RepositoryBase<T extends mongoose.Document>  {
 
-    private _model: mongoose.Model<mongoose.Document>;
+    private _model: Model<T>;
 
-    constructor(schemaModel: mongoose.Model<mongoose.Document>) {
+    constructor(schemaModel: Model<T>) {
         this._model = schemaModel;
     }
 
-    create(item: T): Promise<mongoose.Document> {
+    create(item: T): Promise<T> {
 
         return new Promise((resolve, reject) => {
-            this._model.create(item, (error: any, result: mongoose.Document) => {
+            this._model.create(item, (error: any, result: T) => {
                 if (error) reject(error)
                 else resolve(result)
             });
@@ -74,26 +74,26 @@ class RepositoryBase<T extends mongoose.Document>  {
         });
     }
 
-    update(_id: mongoose.Types.ObjectId, item: T): Promise<T> {
+    update(_id: Types.ObjectId, item: any): Promise<T> {
 
         return new Promise((resolve, reject) => {
-            this._model.update({ _id: _id }, item, (error: any, result: T) => {
+            this._model.findByIdAndUpdate({ _id }, item, (error: any, result: T) => {
                 if (error) reject(error)
                 else resolve(result);
             });
         });
     }
 
-    delete(_id: string) {
+    delete(_id: Types.ObjectId) {
         return new Promise((resolve, reject) => {
-            this._model.remove({ _id }, (error) => {
+            this._model.deleteOne({ _id }, (error) => {
                 if (error) reject(error)
                 else resolve(_id);
             });
         });
     }
 
-    findById(_id: string): Promise<T> {
+    findById(_id: Types.ObjectId): Promise<T> {
 
         return new Promise((resolve, reject) => {
             this._model.findById(_id, (error: any, result: T) => {

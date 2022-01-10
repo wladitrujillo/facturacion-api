@@ -21,7 +21,11 @@ export interface IInvoice extends Document {
 }
 
 let InvoiceSchema = new Schema({
-    
+    company: {
+        type: Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
     branch: {
         type: Schema.Types.ObjectId,
         ref: 'Branch',

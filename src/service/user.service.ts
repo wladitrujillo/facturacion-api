@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { PageRequest } from "../model/page-request";
 import { EmailService } from './mail.service';
 import { getLogger } from 'log4js';
+import { Types } from "mongoose";
 
 const logger = getLogger("UserService");
 class UserService extends CrudService<IUser> {
@@ -34,7 +35,11 @@ class UserService extends CrudService<IUser> {
     }
 
     getUserById(_id: string) {
-        return this._repository.getUserById(_id);
+        return this._repository.findById(this.toObjectId(_id));
+    }
+
+    private toObjectId(_id: string): Types.ObjectId {
+        return new Types.ObjectId(_id);
     }
 
 }

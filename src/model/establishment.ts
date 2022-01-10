@@ -1,24 +1,25 @@
 import { Document, Schema, Model, model } from "mongoose";
 
 export interface IEstablishment extends Document {
-    taxId: String;
-    autorization: String;
-    autorizationDate: Date;
+    code: String;
     name: String;
-    code: String,
     address: String;
-    urlLogo: String;
     active: Boolean;
 
 }
 
 let EstablishmentSchema = new Schema({
-    name: {
+    company: {
+        type: Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
+    code: {
         type: String,
         required: true,
         trim: true
     },
-    code: {
+    name: {
         type: String,
         required: true,
         trim: true
@@ -26,11 +27,6 @@ let EstablishmentSchema = new Schema({
     address: {
         type: String,
         required: false
-    },
-    urlLogo: {
-        type: String,
-        required: false,
-        trim: true
     },
     active: {
         type: Boolean,
@@ -40,7 +36,7 @@ let EstablishmentSchema = new Schema({
 });
 
 //Crea indice para el codigo
-EstablishmentSchema.index({ code: 1 }, { unique: true });
+EstablishmentSchema.index({ company: 1, code: 1 }, { unique: true });
 
 export const Establishment: Model<IEstablishment> = model<IEstablishment>("Establishment", EstablishmentSchema);
 

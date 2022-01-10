@@ -13,6 +13,11 @@ export interface IProduct extends Document {
 
 
 let ProductSchema = new Schema({
+    company: {
+        type: Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
     name: {
         type: String,
         required: true,
@@ -66,7 +71,7 @@ let ProductSchema = new Schema({
 });
 
 
-ProductSchema.index({ enterprise: 1, code: 1 }, { unique: true });
+ProductSchema.index({ company: 1, code: 1 }, { unique: true });
 
 export const Product: Model<IProduct> = model<IProduct>('Product', ProductSchema);
 
