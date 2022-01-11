@@ -25,5 +25,9 @@ export class AdminRoutes {
 
         this.router.route("/catalog/:name")
             .get(adminController.getCatalogByName);
+
+        this.router.route("/company")
+            .get(adminController.getCompany)
+            .put(adminController.updateCompany)
     }
 }

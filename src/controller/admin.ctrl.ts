@@ -30,7 +30,7 @@ class AdminController {
     getRoles = async (req: Request, res: Response) => {
         try {
 
-            let roles = await this.adminService.retrieveRoles('SUPERADMIN');
+            let roles = await this.adminService.retrieveRoles();
             res.status(200).send(roles);
         }
         catch (error) {
@@ -54,5 +54,32 @@ class AdminController {
         }
     }
 
+    getCompany = async (req: Request, res: Response) => {
+        logger.debug("Start getCompany");
+        try {
+            let companyId = res.locals.jwtPayload.company;
+            let response: any = await this.adminService.getCompanyById(companyId);
+            res.send(response);
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
+
+    updateCompany = async (req: Request, res: Response) => {
+        logger.debug("Start getCompany");
+        try {
+            let companyId = res.locals.jwtPayload.company;
+            let response: any = await this.adminService.updateCompany(companyId, req.body);
+            res.send(response);
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
 }
 export = AdminController;

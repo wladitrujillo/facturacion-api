@@ -9,6 +9,8 @@ export interface ICompany extends Document {
     name: String;
     address: String;
     urlLogo: String;
+    email: String;
+    phone: String;
     active: Boolean;
 
 }
@@ -31,6 +33,16 @@ let CompanySchema = new Schema({
         required: false
     },
     urlLogo: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    phone: {
         type: String,
         required: false,
         trim: true

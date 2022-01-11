@@ -10,8 +10,12 @@ import { Types } from "mongoose";
 const logger = getLogger("UserService");
 class UserService extends CrudService<IUser> {
 
+
+    private emailService: EmailService;
+
     constructor() {
         super(new UserRepository());
+        this.emailService = new EmailService();
     }
 
 
@@ -20,18 +24,10 @@ class UserService extends CrudService<IUser> {
         return this._repository.retrieve(criteria, pageRequest);
     }
 
-    async create(item: IUser): Promise<IUser> {
-        logger.debug("Start Create user");
-
-        let gmailService = new EmailService();
-        let password = "test123";
-        await gmailService.sendMail(
-            item.email,
-            'Hello',
-            'Hello from gmailService your password is: ' + password);
-        item.hash = bcrypt.hashSync(password, 10);
-        item.active = true;
-        return this._repository.create(item);
+    async create(user: IUser): Promise<IUser> {
+        let userCreated: IUser = await this._repository.create(user);
+        this.emailService.sendMail(userCreated.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Confirma tu correo electrónico en este <a href='http://localhost:4200/#/auth/activate-account/${userCreated._id}'>enlace</a></p>`);
+        return userCreated;
     }
 
     getUserById(_id: string) {
