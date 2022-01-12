@@ -16,6 +16,7 @@ export interface IUser extends Document {
     createAt: Date;
     active: Boolean;
     hash: string;
+    hasToUpdatePassword: boolean;
 }
 
 let UserSchema = new Schema({
@@ -58,7 +59,7 @@ let UserSchema = new Schema({
     active: {
         type: Boolean,
         required: true,
-        default: false
+        default: true
     },
     hash: {
         type: String,
@@ -87,7 +88,12 @@ let UserSchema = new Schema({
     about: {
         type: String,
         required: false
-    }
+    },
+    hasToUpdatePassword: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
 });
 UserSchema.index({ company: 1, email: 1 }, { unique: true });
 //Creando un modelo

@@ -14,15 +14,20 @@ export class UserRoutes {
     routes() {
 
         let controller = new UserController();
+
         this.router.route("/profile-info")
             .get(controller.profileInfo);
+
         this.router.route("/profile-picture")
             .post(controller.uploadProfilePicture)
             .get(controller.getProfilePicture);
 
+        this.router.route("/password")
+            .put(controller.updatePassword);
+
         this.router.route("/")
             .get(controller.retrieve)
-            .post(controller.create);
+            .post(controller.createUser);
 
         this.router.route("/:_id")
             .get(controller.findById)

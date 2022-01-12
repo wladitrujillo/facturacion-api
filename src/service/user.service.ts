@@ -24,14 +24,17 @@ class UserService extends CrudService<IUser> {
         return this._repository.retrieve(criteria, pageRequest);
     }
 
-    async create(user: IUser): Promise<IUser> {
+    async createUser(user: IUser, password: string): Promise<IUser> {
+        user.hasToUpdatePassword = true;
+        user.hash = bcrypt.hashSync(password, 10);
         let userCreated: IUser = await this._repository.create(user);
-        this.emailService.sendMail(userCreated.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Confirma tu correo electrónico en este <a href='http://localhost:4200/#/auth/activate-account/${userCreated._id}'>enlace</a></p>`);
+        this.emailService.sendMail(userCreated.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Ingresa en este <a href='http://localhost:4200/#/auth/login'>enlace</a></p>`);
         return userCreated;
     }
 
-    getUserById(_id: string) {
-        return this._repository.findById(this.toObjectId(_id));
+    async updatePassword(userId: string, password: string): Promise<void> {
+        let hash = bcrypt.hashSync(password, 10);
+        await this._repository.update(this.toObjectId(userId), { hash, hasToUpdatePassword: false });
     }
 
     private toObjectId(_id: string): Types.ObjectId {

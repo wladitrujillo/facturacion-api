@@ -26,7 +26,7 @@ export class UserController extends BaseController<IUser>{
 
     profileInfo = async (req: Request, res: Response) => {
         try {
-            let objectFound = await new UserService().getUserById(res.locals.jwtPayload.sub);
+            let objectFound = await new UserService().findById(res.locals.jwtPayload.sub);
             res.send(objectFound);
         }
         catch (error) {
@@ -35,6 +35,32 @@ export class UserController extends BaseController<IUser>{
         }
     }
 
+    updatePassword = async (req: Request, res: Response) => {
+
+        try {
+            let objectFound = await new UserService().updatePassword(res.locals.jwtPayload.sub, req.body.password);
+            res.send(objectFound);
+        }
+        catch (error) {
+            logger.error(error);
+            res.send(error?.message);
+        }
+
+    }
+
+    createUser = async (req: Request, res: Response) => {
+
+        try {
+            req.body.company = res.locals.jwtPayload.company;
+            let user = await new UserService().createUser(req.body, req.body.password);
+            res.send(user);
+        }
+        catch (error) {
+            logger.error(error);
+            res.send(error?.message);
+        }
+
+    }
     public uploadProfilePicture = (req: Request, res: Response) => {
 
         let upload = multer({ storage: storage, fileFilter: this.imageFilter }).single('upload');
