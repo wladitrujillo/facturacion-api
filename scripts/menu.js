@@ -99,14 +99,14 @@ let createMenuItems = async () => {
 
     //*****components*****//
 
-    parent = await createMenu({
+  /*  parent = await createMenu({
         path: '/components',
         title: 'Components',
         type: 'sub',
         icontype: 'apps',
         collapse: 'components',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
 
     let components = [
@@ -119,18 +119,18 @@ let createMenuItems = async () => {
         { path: 'typography', title: 'Typography', ab: 'T', roles: ['SUPERADMIN'] }
     ];
 
-    await createChildrens(parent, components);
+  //  await createChildrens(parent, components);
 
     //*****forms*****//
 
-    parent = await createMenu({
+    /*parent = await createMenu({
         path: '/forms',
         title: 'Forms',
         type: 'sub',
         icontype: 'content_paste',
         collapse: 'forms',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
     let forms =
         [
@@ -141,20 +141,20 @@ let createMenuItems = async () => {
         ];
 
 
-    await createChildrens(parent, forms);
+  //  await createChildrens(parent, forms);
 
 
 
     //*****tables*****//
 
-    parent = await createMenu({
+   /* parent = await createMenu({
         path: '/tables',
         title: 'Tables',
         type: 'sub',
         icontype: 'grid_on',
         collapse: 'tables',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
     let tables = [
         { path: 'regular-tables', title: 'Regular Tables', ab: 'RT', roles: ['SUPERADMIN'] },
@@ -162,19 +162,19 @@ let createMenuItems = async () => {
         { path: 'datatables.net', title: 'Datatables.net', ab: 'DT', roles: ['SUPERADMIN'] }
     ];
 
-    await createChildrens(parent, tables);
+   // await createChildrens(parent, tables);
 
 
     //*****maps*****//
 
-    parent = await createMenu({
+    /*parent = await createMenu({
         path: '/maps',
         title: 'Maps',
         type: 'sub',
         icontype: 'place',
         collapse: 'maps',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
     let maps = [
         { path: 'google', title: 'Google Maps', ab: 'GM', roles: ['SUPERADMIN'] },
@@ -183,51 +183,51 @@ let createMenuItems = async () => {
     ]
 
 
-    await createChildrens(parent, maps);
+   // await createChildrens(parent, maps);
 
 
     //*****widgets*****//
 
-    await createMenu({
+  /*  await createMenu({
         path: '/widgets',
         title: 'Widgets',
         type: 'link',
         icontype: 'widgets',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
 
     //*****charts*****//
 
-    await createMenu({
+   /* await createMenu({
         path: '/charts',
         title: 'Charts',
         type: 'link',
         icontype: 'timeline',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
     //*****calendar*****//
 
-    await createMenu({
+    /*await createMenu({
         path: '/calendar',
         title: 'Calendar',
         type: 'link',
         icontype: 'date_range',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
 
     //*****pages*****//
 
-    await createMenu({
+    /*await createMenu({
         path: '/pages',
         title: 'Pages',
         type: 'sub',
         icontype: 'image',
         collapse: 'pages',
         roles: ['SUPERADMIN']
-    });
+    });*/
 
 
     let pages = [
@@ -239,7 +239,7 @@ let createMenuItems = async () => {
         { path: 'user-page', title: 'User Page', ab: 'UP', roles: ['SUPERADMIN'] }
     ]
 
-    await createChildrens(parent, pages);
+   // await createChildrens(parent, pages);
 
 }
 
