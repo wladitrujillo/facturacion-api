@@ -14,6 +14,7 @@ class InvoiceController extends BaseController<IInvoice>{
     createInvoice = async (req: Request, res: Response) => {
         try {
 
+            req.body.company = res.locals.jwtPayload.company;
             let branchId: string = req.params.branchId;
             let invoice: IInvoice = <IInvoice>req.body;
             logger.debug("Create invoice ==>>", invoice);
@@ -27,5 +28,6 @@ class InvoiceController extends BaseController<IInvoice>{
 
         }
     }
+
 }
 export = InvoiceController;    

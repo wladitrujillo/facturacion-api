@@ -15,13 +15,11 @@ export class InvoiceRoutes {
     routes() {
 
         let controller = new InvoiceController();
-        
-        this.router.route("/branch/:branchId")           
+
+        this.router.route("/branch/:branchId")
             .post(controller.createInvoice);
 
-        this.router.route("/").get(controller.retrieve)
-
-     
+        this.router.route("/").get(controller.retrieve);
 
     }
 }
