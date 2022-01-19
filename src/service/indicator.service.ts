@@ -17,6 +17,8 @@ class IndicatorService {
 
     private invoiceRepository: InvoiceRepository;
 
+    private locale: string = 'es-ES';
+
     constructor() {
         this.invoiceRepository = new InvoiceRepository();
     }
@@ -25,18 +27,18 @@ class IndicatorService {
     async monthly(company: string, year: number): Promise<any> {
 
         let months: Item[] = [
-            { value: 1, description: 'Enero', total: 0 },
-            { value: 2, description: 'Febrero', total: 0 },
-            { value: 3, description: 'Marzo', total: 0 },
-            { value: 4, description: 'Abril', total: 0 },
-            { value: 5, description: 'Mayo', total: 0 },
-            { value: 6, description: 'Junio', total: 0 },
-            { value: 7, description: 'Julio', total: 0 },
-            { value: 8, description: 'Agosto', total: 0 },
-            { value: 9, description: 'Septiembre', total: 0 },
-            { value: 10, description: 'Octubre', total: 0 },
-            { value: 11, description: 'Noviembre', total: 0 },
-            { value: 12, description: 'Diciembre', total: 0 },
+            { value: 1, description: 'ENE', total: 0 },
+            { value: 2, description: 'FEB', total: 0 },
+            { value: 3, description: 'MAR', total: 0 },
+            { value: 4, description: 'ABR', total: 0 },
+            { value: 5, description: 'MAY', total: 0 },
+            { value: 6, description: 'JUN', total: 0 },
+            { value: 7, description: 'JUL', total: 0 },
+            { value: 8, description: 'AGO', total: 0 },
+            { value: 9, description: 'SEP', total: 0 },
+            { value: 10, description: 'OCT', total: 0 },
+            { value: 11, description: 'NOV', total: 0 },
+            { value: 12, description: 'DIC', total: 0 },
         ];
 
 
@@ -65,15 +67,17 @@ class IndicatorService {
     }
 
 
- 
+
     async daily(company: string, year: number, month: number, day: number): Promise<any> {
         let date = new Date(year, month - 1, day);
 
         let days: Item[] = [];
 
+        let options: any = { weekday: 'short', day: 'numeric' };
+
         for (let i = 1; i <= 7; i++) {
             date.setDate(date.getDate() - date.getDay() + i);
-            days.push({ value: date.getDate(), description: date.toLocaleDateString("es-ES"), total: 0 });
+            days.push({ value: date.getDate(), description: date.toLocaleDateString(this.locale, options), total: 0 });
         }
 
         console.log(days);
@@ -104,7 +108,7 @@ class IndicatorService {
     }
 
 
-   
+
     private toObjectId(_id: string): Types.ObjectId {
         return new Types.ObjectId(_id);
     }
