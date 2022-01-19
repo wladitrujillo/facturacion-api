@@ -65,24 +65,7 @@ class IndicatorService {
     }
 
 
-    async weekly(company: string, year: number, month: number): Promise<any> {
-
-        console.log(this.getWeeksInMonth(year, month))
-        return this.invoiceRepository.retrieveAll({
-            company,
-            $expr: {
-                $and: [
-                    { $eq: [{ $year: "$createdAt" }, year] },
-                    { $eq: [{ $month: "$createdAt" }, month] }
-                ]
-            }
-        });
-
-
-
-
-    }
-
+ 
     async daily(company: string, year: number, month: number, day: number): Promise<any> {
         let date = new Date(year, month - 1, day);
 
@@ -121,41 +104,7 @@ class IndicatorService {
     }
 
 
-    private getWeeksInMonth = (year: number, month: number) => {
-
-        const weeks = [];
-        const firstDay: Date = new Date(year, month, 1);
-        const lastDay: Date = new Date(year, month + 1, 0);
-        const daysInMonth: number = lastDay.getDate();
-        let dayOfWeek: number = firstDay.getDay();
-        let start: number = 0;
-        let end: number = 0;
-
-        for (let i = 1; i < daysInMonth + 1; i++) {
-
-            if (dayOfWeek === 0 || i === 1) {
-                start = i;
-            }
-
-            if (dayOfWeek === 6 || i === daysInMonth) {
-
-                end = i;
-
-                if (start !== end) {
-
-                    weeks.push({
-                        start: start,
-                        end: end
-                    });
-                }
-            }
-
-            dayOfWeek = new Date(year, month, i).getDay();
-        }
-
-        return weeks;
-    }
-
+   
     private toObjectId(_id: string): Types.ObjectId {
         return new Types.ObjectId(_id);
     }

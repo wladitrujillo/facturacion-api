@@ -53,9 +53,6 @@ class InvoiceController extends BaseController<IInvoice>{
                 case 'monthly':
                     result = await this.indicatorService.monthly(company, year);
                     break;
-                case 'weekly':
-                    result = await this.indicatorService.weekly(company, year, month);
-                    break;
                 case 'daily':
                     result = await this.indicatorService.daily(company, year, month, day);
                     break;
