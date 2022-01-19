@@ -16,10 +16,10 @@ export class InvoiceRoutes {
 
         let controller = new InvoiceController();
 
+        this.router.route("/").get(controller.retrieve);
         this.router.route("/branch/:branchId")
             .post(controller.createInvoice);
-
-        this.router.route("/").get(controller.retrieve);
+        this.router.route("/indicator/:indicator").get(controller.indicators);
 
     }
 }

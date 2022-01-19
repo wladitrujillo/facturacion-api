@@ -63,11 +63,11 @@ class RepositoryBase<T extends mongoose.Document>  {
         });
     }
 
-    retrieveAll() {
+    retrieveAll(criteria: any) {
 
         return new Promise((resolve, reject) => {
 
-            this._model.find({}, (error, result) => {
+            this._model.find(criteria, (error, result) => {
                 if (error) reject(error)
                 else resolve(result)
             });
