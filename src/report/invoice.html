@@ -162,7 +162,7 @@
         </div>
         <div class="row">
             <div class="col-xs-4">
-                <table class="table">
+                <!--table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Forma Pago</th>
@@ -180,7 +180,7 @@
                         </tr>
 
                     </tbody>
-                </table>
+                </table-->
 
             </div>
             <div class="col-xs-4">
@@ -202,14 +202,16 @@
                         <tr>
                             <th scope="col">SUBTOTAL</th>
                             <th scope="col">
-                                <%=totalWithoutTax%>
+                                $<%=totalWithoutTax%>
                             </th>
 
                         </tr>
                         <tr>
 
                             <th scope="col">IVA</th>
-                            <th scope="col">$120.00</th>
+                            <th scope="col">
+                                $<%=total-totalWithoutTax%>
+                            </th>
 
                         </tr>
                         <tr>
@@ -226,7 +228,7 @@
 
                             <th scope="col">TOTAL</th>
                             <th scope="col">
-                                <%=total%>
+                                $<%=total%>
                             </th>
                         </tr>
                     </tbody>
