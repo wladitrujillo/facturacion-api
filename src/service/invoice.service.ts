@@ -6,6 +6,9 @@ import CrudService from "./crud.service";
 import { IBranch } from "../model/branch";
 import { IEstablishment } from "../model/establishment";
 import { Schema, Types } from "mongoose";
+import ReportService from "./report.service";
+import { CreateOptions } from "html-pdf";
+
 
 
 class InvoiceService extends CrudService<IInvoice> {
@@ -13,10 +16,14 @@ class InvoiceService extends CrudService<IInvoice> {
 
     private branchRepository: BranchRepository;
     private establishmentRepository: EstablishmentRepository;
+    private invoiceRespository: InvoiceRepository;
+    private reportService: ReportService;
     constructor() {
         super(new InvoiceRepository());
         this.branchRepository = new BranchRepository();
         this.establishmentRepository = new EstablishmentRepository();
+        this.invoiceRespository = new InvoiceRepository();
+        this.reportService = new ReportService();
     }
 
 
@@ -29,6 +36,20 @@ class InvoiceService extends CrudService<IInvoice> {
         invoice.branch = branchId;
         invoice.secuence = establishment.code + "-" + branch.code + "-" + "0".repeat(5) + branch.next;
         return this._repository.create(invoice);
+    }
+
+
+    invoiceReport = async (invoiceId: string, res: any): Promise<void> => {
+        let invoice = await this.invoiceRespository.findById(this.toObjectId(invoiceId));
+        let path = process.cwd() + '/src/report/';
+        const options: CreateOptions = {
+            base: 'file://' + path,
+            type: "pdf",
+            "format": "Letter",
+            "orientation": "portrait"
+        }
+        this.reportService.toPdf(path + 'invoice.html', invoice, options, res);
+
     }
 
     private toObjectId(_id: string): Types.ObjectId {
