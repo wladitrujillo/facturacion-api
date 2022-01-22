@@ -6,16 +6,52 @@ import BaseController = require("./base.ctrl");
 
 import InvoiceService = require("../service/invoice.service");
 import IndicatorService = require("../service/indicator.service");
+import { PageRequest } from "../model/page-request";
 
 
 const logger = getLogger("InvoiceController");
-class InvoiceController extends BaseController<IInvoice>{
+class InvoiceController {
 
     private indicatorService: IndicatorService;
+    private invoiceService: InvoiceService;
 
     constructor() {
-        super(new InvoiceService());
         this.indicatorService = new IndicatorService();
+        this.invoiceService = new InvoiceService();
+    }
+
+    retrieve = async (req: Request, res: Response) => {
+        logger.debug("Start retrive");
+        try {
+
+            let company = res.locals.jwtPayload.company;
+            logger.debug('Company:', company)
+            let pageRequest = new PageRequest(req);
+            let response: any = await this.invoiceService.retrieve({ company }, pageRequest);
+            res.header('X-Total-Count', response.total);
+            res.send(response.data);
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
+    findById = async (req: Request, res: Response) => {
+        logger.debug("Start findById", req.params._id);
+        try {
+
+            let company = res.locals.jwtPayload.company;
+            logger.debug('Company:', company)
+            let invoice: IInvoice = await this.invoiceService.findById(req.params._id);
+            logger.debug("Invoice", invoice)
+            res.send(invoice);
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
     }
     createInvoice = async (req: Request, res: Response) => {
         try {

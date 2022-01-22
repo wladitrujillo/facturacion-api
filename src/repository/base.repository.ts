@@ -19,7 +19,7 @@ class RepositoryBase<T extends mongoose.Document>  {
         })
     }
     //Consulta segun el criterio de busqueda con paginacion segun la busqueda
-    retrieve(criteria: any, pageRequest: PageRequest) {
+    retrieve(criteria: any, pageRequest: PageRequest): Promise<T[]> {
 
         let plus = /\+/g;
         let comma = /\,/g;
@@ -63,7 +63,7 @@ class RepositoryBase<T extends mongoose.Document>  {
         });
     }
 
-    retrieveAll(criteria: any) {
+    retrieveAll(criteria: any): Promise<T[]> {
 
         return new Promise((resolve, reject) => {
 

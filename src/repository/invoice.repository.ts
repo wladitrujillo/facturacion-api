@@ -14,7 +14,7 @@ class InvoiceRepository extends RepositoryBase<IInvoice> {
                 .populate("company")
                 .populate({ path: "branch", populate: { path: "establishment" } })
                 .populate("customer")
-                .populate("detail.product")
+                .populate({ path: "detail.product", model: "Product" })
                 .exec((error: any, result: IInvoice) => {
                     if (error) reject(error)
                     else resolve(result);

@@ -2,30 +2,39 @@ import InvoiceRepository from "./../repository/invoice.repository";
 import BranchRepository from "./../repository/branch.repository";
 import EstablishmentRepository from "./../repository/establishment.repository";
 import { IInvoice } from "../model/invoice";
-import CrudService from "./crud.service";
 import { IBranch } from "../model/branch";
 import { IEstablishment } from "../model/establishment";
-import { Schema, Types } from "mongoose";
+import { Types } from "mongoose";
 import ReportService from "./report.service";
 import { CreateOptions } from "html-pdf";
+import InvoiceDetailRepository from "../repository/inovice.detail.repository";
+import { PageRequest } from "../model/page-request";
 
 
 
-class InvoiceService extends CrudService<IInvoice> {
+class InvoiceService {
 
 
     private branchRepository: BranchRepository;
     private establishmentRepository: EstablishmentRepository;
     private invoiceRespository: InvoiceRepository;
+    private invoiceDetailRespository: InvoiceDetailRepository;
     private reportService: ReportService;
     constructor() {
-        super(new InvoiceRepository());
         this.branchRepository = new BranchRepository();
         this.establishmentRepository = new EstablishmentRepository();
         this.invoiceRespository = new InvoiceRepository();
+        this.invoiceDetailRespository = new InvoiceDetailRepository();
         this.reportService = new ReportService();
     }
 
+    retrieve(criteria: any, pageRequest: PageRequest): Promise<IInvoice[]> {
+        return this.invoiceRespository.retrieve(criteria, pageRequest);
+    }
+
+    findById(_id: string): Promise<IInvoice> {
+        return this.invoiceRespository.findById(this.toObjectId(_id));
+    }
 
     createInvoice = async (branchId: string, invoice: IInvoice): Promise<IInvoice> => {
 
@@ -35,7 +44,17 @@ class InvoiceService extends CrudService<IInvoice> {
         await this.branchRepository.update(branch._id, branch);
         invoice.branch = branchId;
         invoice.secuence = establishment.code + "-" + branch.code + "-" + "0".repeat(5) + branch.next;
-        return this._repository.create(invoice);
+        let createdInvoice = await this.invoiceRespository.create(invoice);
+
+        let createdDetail;
+
+        for (let detail of invoice.detail) {
+            detail.company = createdInvoice.company;
+            detail.invoice = createdInvoice._id;
+            createdDetail = await this.invoiceDetailRespository.create(detail);
+        }
+
+        return createdInvoice;
     }
 
 

@@ -1,44 +1,51 @@
-import { Document, Schema, Model, model } from "mongoose";
-import { IBranch } from "./branch";
-import { ICompany } from "./company";
-import { ICustomer } from "./customer";
-import { IInvoiceDetail } from "./invoice-detail";
 
-export interface IInvoice extends Document {
+import { Document, Schema, Model, model } from "mongoose";
+import { ICompany } from "./company";
+import { IInvoice } from "./invoice";
+import { IProduct } from "./product";
+
+
+export interface IInvoiceDetail extends Document {
     company: ICompany | string;
-    branch: IBranch | string;
-    customer: ICustomer | string;
-    secuence: string;
+    invoice: IInvoice | string;
+    product: IProduct | string;
     createdAt: Date;
+    price: number;
+    quantity: number;
     totalWithoutTax: number;
     total: number;
-    detail: IInvoiceDetail[];
 }
 
-let InvoiceSchema = new Schema({
+let InvoiceDetailSchema = new Schema({
     company: {
         type: Schema.Types.ObjectId,
         ref: 'Company',
         required: true
     },
-    branch: {
+    invoice: {
         type: Schema.Types.ObjectId,
-        ref: 'Branch',
+        ref: 'Invoice',
         required: true
     },
-    customer: {
+    product: {
         type: Schema.Types.ObjectId,
-        ref: 'Customer',
-        required: true
-    },
-    secuence: {
-        type: String,
+        ref: 'Product',
         required: true
     },
     createdAt: {
         type: Date,
         required: true,
         default: Date.now
+    },
+    price: {
+        type: Number,
+        required: true,
+        default: 0.0
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        default: 0.0
     },
     totalWithoutTax: {
         type: Number,
@@ -49,15 +56,12 @@ let InvoiceSchema = new Schema({
         type: Number,
         required: true,
         default: 0.0
-    },
-    detail: {
-        type: Schema.Types.Array,
-        ref: 'InvoiceDetail'
     }
+
 });
 
 
-InvoiceSchema.index({ company: 1, secuence: 1 }, { unique: true });
+InvoiceDetailSchema.index({ company: 1, invoice: 1, product: 1 }, { unique: true });
 
-export const Invoice: Model<IInvoice> = model<IInvoice>("Invoice", InvoiceSchema);
+export const InvoiceDetail: Model<IInvoiceDetail> = model<IInvoiceDetail>("InvoiceDetail", InvoiceDetailSchema);
 
