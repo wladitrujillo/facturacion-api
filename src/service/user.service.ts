@@ -28,7 +28,7 @@ class UserService extends CrudService<IUser> {
         user.hasToUpdatePassword = true;
         user.hash = bcrypt.hashSync(password, 10);
         let userCreated: IUser = await this._repository.create(user);
-        this.emailService.sendMail(userCreated.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Ingresa en este <a href='http://localhost:4200/#/auth/login'>enlace</a></p>`);
+        this.emailService.sendMail(userCreated.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Ingresa en este <a href='${process.env.WEB_URL}/#/auth/login'>enlace</a></p>`);
         return userCreated;
     }
 

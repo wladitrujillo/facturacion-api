@@ -35,7 +35,7 @@ class AuthService {
         user.role = 'SUPERADMIN';
 
         let userCreated: any = await this._userRepository.create(user);
-        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Confirma tu correo electrónico en este <a href='http://localhost:4200/#/auth/activate-account/${userCreated._id}'>enlace</a></p>`);
+        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Confirma tu correo electrónico en este <a href='${process.env.WEB_URL}/#/auth/activate-account/${userCreated._id}'>enlace</a></p>`);
     }
 
     async authenticate(email: string, password: string) {
@@ -82,7 +82,7 @@ class AuthService {
 
         let token = this.forgotPasswordToken(user);
 
-        this.emailService.sendMail(email, 'Cambia tu contraseña', `Cambia tu contraseña en este <a href='http://localhost:4200/#/auth/reset-password/${token}'>enlace</a>`);
+        this.emailService.sendMail(email, 'Cambia tu contraseña', `Cambia tu contraseña en este <a href='${process.env.WEB_URL}/#/auth/reset-password/${token}'>enlace</a>`);
     }
 
     async forgotPasswordWithCompany(ruc: string, email: string) {
@@ -93,7 +93,7 @@ class AuthService {
 
         let token = this.forgotPasswordToken(user);
 
-        this.emailService.sendMail(email, 'Cambia tu contraseña', `Cambia tu contraseña en este <a href='http://localhost:4200/#/auth/reset-password/${token}'>enlace</a>`);
+        this.emailService.sendMail(email, 'Cambia tu contraseña', `Cambia tu contraseña en este <a href='${process.env.WEB_URL}/#/auth/reset-password/${token}'>enlace</a>`);
     }
 
     async resetPassword(token: string, password: string) {
