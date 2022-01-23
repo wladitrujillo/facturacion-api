@@ -114,7 +114,7 @@ class IndicatorService {
 
     }
 
-    async topTenProducts(company: string): Promise<any> {
+    async topProducts(company: string): Promise<any> {
 
         let result = await InvoiceDetail.aggregate([
             {
@@ -151,7 +151,7 @@ class IndicatorService {
                 $sort: { quantity: -1 }
             },
             {
-                $limit: 10
+                $limit: 5
             }
         ]);
 
