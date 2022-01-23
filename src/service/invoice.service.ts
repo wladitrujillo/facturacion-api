@@ -62,12 +62,13 @@ class InvoiceService {
 
 
     invoiceReport = async (invoiceId: string, res: any): Promise<void> => {
+        logger.debug('Start invoiceReport invoiceId:', invoiceId)
         let invoice = await this.invoiceRespository.findById(this.toObjectId(invoiceId));
         if (!invoice) {
             logger.error("Invoice Not Found");
         }
         const base = path.resolve('./src/report');
-        console.log(base);
+        logger.debug(base);
         const options: CreateOptions = {
             base: `file://${base}/`,
             type: "pdf",
