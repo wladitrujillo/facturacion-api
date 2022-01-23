@@ -29,5 +29,7 @@ export class AdminRoutes {
         this.router.route("/company")
             .get(adminController.getCompany)
             .put(adminController.updateCompany)
+        this.router.route("/testEmail")
+            .put(adminController.testEmail);
     }
 }

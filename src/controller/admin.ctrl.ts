@@ -1,5 +1,6 @@
 
 import AdminService = require("../service/admin.service");
+import { EmailService } from "../service/mail.service";
 import { Request, Response } from "express";
 import { getLogger } from 'log4js';
 
@@ -8,9 +9,11 @@ const logger = getLogger("MenuController");
 class AdminController {
 
     private adminService: AdminService;
+    private emailService: EmailService;
 
     constructor() {
         this.adminService = new AdminService();
+        this.emailService = new EmailService();
     }
 
     getMenu = async (req: Request, res: Response) => {
@@ -74,6 +77,20 @@ class AdminController {
             let companyId = res.locals.jwtPayload.company;
             let response: any = await this.adminService.updateCompany(companyId, req.body);
             res.send(response);
+        }
+        catch (error) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
+
+    testEmail = async (req: Request, res: Response) => {
+        logger.debug("Start testEmail:", req.body.email);
+        try {
+            let companyId = res.locals.jwtPayload.company;
+            this.emailService.sendMail(req.body.email, "Email de prueba", "Este es un email de prueba para tu Facturero Agil")
+            res.sendStatus(200);
         }
         catch (error) {
             logger.error(error);
