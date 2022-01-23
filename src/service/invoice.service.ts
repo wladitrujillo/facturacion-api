@@ -9,8 +9,11 @@ import ReportService from "./report.service";
 import { CreateOptions } from "html-pdf";
 import InvoiceDetailRepository from "../repository/inovice.detail.repository";
 import { PageRequest } from "../model/page-request";
+import { getLogger } from "log4js";
+import path from "path";
 
 
+const logger = getLogger("IndicatorService");
 
 class InvoiceService {
 
@@ -60,14 +63,18 @@ class InvoiceService {
 
     invoiceReport = async (invoiceId: string, res: any): Promise<void> => {
         let invoice = await this.invoiceRespository.findById(this.toObjectId(invoiceId));
-        let path = process.cwd() + '/src/report/';
+        if (!invoice) {
+            logger.error("Invoice Not Found");
+        }
+        const base = path.resolve('./src/report');
+        console.log(base);
         const options: CreateOptions = {
-            base: 'file://' + path,
+            base: `file://${base}/`,
             type: "pdf",
             "format": "Letter",
             "orientation": "portrait"
         }
-        this.reportService.toPdf(path + 'invoice.html', invoice, options, res);
+        this.reportService.toPdf(`${base}/invoice.html`, invoice, options, res);
 
     }
 
@@ -81,3 +88,4 @@ class InvoiceService {
 
 Object.seal(InvoiceService);
 export = InvoiceService;
+

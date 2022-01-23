@@ -2,6 +2,7 @@
 import { getLogger } from 'log4js';
 import { Types } from "mongoose";
 import { IInvoice, Invoice } from "../model/invoice";
+import { InvoiceDetail } from '../model/invoice-detail';
 import InvoiceRepository from '../repository/invoice.repository';
 import InvoiceService from './invoice.service';
 
@@ -41,26 +42,32 @@ class IndicatorService {
             { value: 12, description: 'DIC', total: 0 },
         ];
 
-
-        let invoices = [];
-
-        for (let month of months) {
-
-            invoices = await Invoice.find({
-                company,
-                $expr: {
-                    $and: [
-                        { $eq: [{ $year: "$createdAt" }, year] },
-                        { $eq: [{ $month: "$createdAt" }, month.value] }
-                    ]
+        const aggregation = [
+            {
+                $match: {
+                    $expr: {
+                        $and: [
+                            { $eq: ['$company', this.toObjectId(company)] },
+                            { $eq: [{ $year: "$createdAt" }, year] }
+                        ]
+                    }
                 }
-            });
+            },
+            {
+                $group: {
+                    _id: { month: { $month: '$createdAt' } },
+                    totalSaleAmount: { $sum: '$total' }
+                }
+            }
+        ];
 
-            month.total = invoices.reduce((a, invoice) => a + invoice.total, 0)
+        let result = await Invoice.aggregate(aggregation);
 
-        }
-
-
+        let element;
+        months.forEach(item => {
+            element = result.find(e => e._id.month === item.value);
+            if (element) item.total = element.totalSaleAmount;
+        });
 
         return months;
 
@@ -80,34 +87,82 @@ class IndicatorService {
             days.push({ value: date.getDate(), description: date.toLocaleDateString(this.locale, options), total: 0 });
         }
 
-        console.log(days);
 
-
-        let invoices: any[] = [];
-
-        for (let day of days) {
-
-            invoices = await Invoice.find({
-                company,
-                $expr: {
-                    $and: [
-                        { $eq: [{ $year: "$createdAt" }, year] },
-                        { $eq: [{ $month: "$createdAt" }, month] },
-                        { $eq: [{ $dayOfMonth: "$createdAt" }, day.value] }
-                    ]
+        const aggregation = [
+            {
+                $match: {
+                    $expr: {
+                        $and: [
+                            { $eq: ['$company', this.toObjectId(company)] },
+                            { $eq: [{ $year: "$createdAt" }, year] },
+                            { $eq: [{ $month: "$createdAt" }, month] },
+                        ]
+                    }
                 }
-            });
+            },
+            {
+                $group: {
+                    _id: { day: { $dayOfMonth: '$createdAt' } },
+                    totalSaleAmount: { $sum: '$total' }
+                }
+            }
+        ];
 
-
-            day.total = invoices.reduce((a, invoice) => a + invoice.total, 0)
-
-        }
+        let result = await Invoice.aggregate(aggregation);
+        let element;
+        days.forEach(item => {
+            element = result.find(e => e._id.day === item.value);
+            if (element) item.total = element.totalSaleAmount;
+        });
 
         return days;
 
     }
 
+    async topTenProducts(company: string): Promise<any> {
 
+        let result = await InvoiceDetail.aggregate([
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'product',
+                    foreignField: '_id',
+                    as: 'product'
+                },
+            },
+            {
+                $project: {
+                    product: {
+                        name: 1
+                    },
+                    quantity: 1,
+                    company: 1
+                }
+            },
+            {
+                $match: {
+                    $expr: {
+                        $eq: ['$company', this.toObjectId(company)]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: '$product',
+                    quantity: { $sum: '$quantity' }
+                }
+            },
+            {
+                $sort: { quantity: -1 }
+            },
+            {
+                $limit: 10
+            }
+        ]);
+
+        return result.map(element => ({ 'description': element._id[0].name, 'total': element.quantity }));
+
+    }
 
     private toObjectId(_id: string): Types.ObjectId {
         return new Types.ObjectId(_id);

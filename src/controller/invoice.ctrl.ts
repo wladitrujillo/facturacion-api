@@ -92,6 +92,10 @@ class InvoiceController {
                 case 'daily':
                     result = await this.indicatorService.daily(company, year, month, day);
                     break;
+                case 'topTenProduct':
+                    result = await this.indicatorService.topTenProducts(company);
+                    break;
+
 
             }
 
