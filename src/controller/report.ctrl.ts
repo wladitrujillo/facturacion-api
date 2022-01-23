@@ -19,6 +19,7 @@ class ReportController {
             this.invoiceService.invoiceReport(req.params.invoceId, res);
         }
         catch (e) {
+            logger.error(e)
             res.sendStatus(500);
 
         }
