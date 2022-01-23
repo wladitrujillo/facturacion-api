@@ -68,13 +68,14 @@ class InvoiceService {
             logger.error("Invoice Not Found");
         }
         const base = path.resolve('./src/report');
-        logger.debug(base);
+        logger.debug('Base', base);
         const options: CreateOptions = {
             base: `file://${base}/`,
             type: "pdf",
             "format": "Letter",
             "orientation": "portrait"
         }
+        logger.debug('Options', options);
         this.reportService.toPdf(`${base}/invoice.html`, invoice, options, res);
 
     }

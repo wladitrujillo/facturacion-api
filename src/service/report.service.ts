@@ -7,7 +7,6 @@ import { getLogger } from 'log4js';
 const logger = getLogger("ReportService");
 class ReportService {
 
-
     toPdf = async (template: string, data: any, options: CreateOptions, response: any) => {
         logger.debug('Start toPdf template:', template)
         let compiled = await ejs.compile(readFileSync(template, 'utf-8'));
