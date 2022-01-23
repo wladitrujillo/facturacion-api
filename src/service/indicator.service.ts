@@ -1,10 +1,7 @@
 
 import { getLogger } from 'log4js';
 import { Types } from "mongoose";
-import { IInvoice, Invoice } from "../model/invoice";
 import { InvoiceDetail } from '../model/invoice-detail';
-import InvoiceRepository from '../repository/invoice.repository';
-import InvoiceService from './invoice.service';
 
 const logger = getLogger("IndicatorService");
 
@@ -16,12 +13,10 @@ interface Item {
 
 class IndicatorService {
 
-    private invoiceRepository: InvoiceRepository;
 
     private locale: string = 'es-ES';
 
     constructor() {
-        this.invoiceRepository = new InvoiceRepository();
     }
 
 
@@ -61,7 +56,7 @@ class IndicatorService {
             }
         ];
 
-        let result = await Invoice.aggregate(aggregation);
+        let result = await InvoiceDetail.aggregate(aggregation);
 
         let element;
         months.forEach(item => {
@@ -108,7 +103,7 @@ class IndicatorService {
             }
         ];
 
-        let result = await Invoice.aggregate(aggregation);
+        let result = await InvoiceDetail.aggregate(aggregation);
         let element;
         days.forEach(item => {
             element = result.find(e => e._id.day === item.value);
