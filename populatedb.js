@@ -33,10 +33,10 @@ const Tax = require('./scripts/tax');
 
 let fillData = async () => {
 
-  //await Role.createRoles(); 
+  await Role.createRoles(); 
   await Menu.createMenuItems();
-  //await Catalog.createCatalogs();
-  //await Tax.createTaxValues();
+  await Catalog.createCatalogs();
+  await Tax.createTaxValues();
   // All done, disconnect from database
   mongoose.connection.close();
 }

@@ -87,26 +87,26 @@ let createMenuItems = async () => {
 
     let invoicing =
         [
-            { path: 'product', title: 'Products', ab: 'P', roles: ['SUPERADMIN', 'ADMIN'] },
-            { path: 'customer', title: 'Customers', ab: 'C', roles: ['SUPERADMIN', 'ADMIN'] },
-            { path: 'establishment', title: 'Establishments', ab: 'E', roles: ['SUPERADMIN', 'ADMIN', 'USER'] },
-            { path: 'invoice', title: 'Invoices', ab: 'I', roles: ['SUPERADMIN', 'ADMIN'] },
-            { path: 'user', title: 'Users', ab: 'U', roles: ['SUPERADMIN', 'ADMIN'] },
-            { path: 'query-invoice', title: 'Consulta Facturas', ab: 'U', roles: ['SUPERADMIN', 'ADMIN'] }
+            { path: 'product', title: 'Productos', ab: 'PR', roles: ['SUPERADMIN', 'ADMIN'] },
+            { path: 'customer', title: 'Clientes', ab: 'CL', roles: ['SUPERADMIN', 'ADMIN'] },
+            { path: 'establishment', title: 'Establecimientos', ab: 'ES', roles: ['SUPERADMIN', 'ADMIN'] },
+            { path: 'invoice', title: 'Facturas', ab: 'FA', roles: ['SUPERADMIN', 'ADMIN', 'USER'] },
+            { path: 'user', title: 'Usuarios', ab: 'US', roles: ['SUPERADMIN', 'ADMIN'] },
+            { path: 'query-invoice', title: 'Consulta Facturas', ab: 'CF', roles: ['SUPERADMIN', 'ADMIN'] }
         ];
 
     await createChildrens(parent, invoicing);
 
     //*****components*****//
 
-  /*  parent = await createMenu({
-        path: '/components',
-        title: 'Components',
-        type: 'sub',
-        icontype: 'apps',
-        collapse: 'components',
-        roles: ['SUPERADMIN']
-    });*/
+    /*  parent = await createMenu({
+          path: '/components',
+          title: 'Components',
+          type: 'sub',
+          icontype: 'apps',
+          collapse: 'components',
+          roles: ['SUPERADMIN']
+      });*/
 
 
     let components = [
@@ -119,7 +119,7 @@ let createMenuItems = async () => {
         { path: 'typography', title: 'Typography', ab: 'T', roles: ['SUPERADMIN'] }
     ];
 
-  //  await createChildrens(parent, components);
+    //  await createChildrens(parent, components);
 
     //*****forms*****//
 
@@ -141,20 +141,20 @@ let createMenuItems = async () => {
         ];
 
 
-  //  await createChildrens(parent, forms);
+    //  await createChildrens(parent, forms);
 
 
 
     //*****tables*****//
 
-   /* parent = await createMenu({
-        path: '/tables',
-        title: 'Tables',
-        type: 'sub',
-        icontype: 'grid_on',
-        collapse: 'tables',
-        roles: ['SUPERADMIN']
-    });*/
+    /* parent = await createMenu({
+         path: '/tables',
+         title: 'Tables',
+         type: 'sub',
+         icontype: 'grid_on',
+         collapse: 'tables',
+         roles: ['SUPERADMIN']
+     });*/
 
     let tables = [
         { path: 'regular-tables', title: 'Regular Tables', ab: 'RT', roles: ['SUPERADMIN'] },
@@ -162,7 +162,7 @@ let createMenuItems = async () => {
         { path: 'datatables.net', title: 'Datatables.net', ab: 'DT', roles: ['SUPERADMIN'] }
     ];
 
-   // await createChildrens(parent, tables);
+    // await createChildrens(parent, tables);
 
 
     //*****maps*****//
@@ -183,29 +183,29 @@ let createMenuItems = async () => {
     ]
 
 
-   // await createChildrens(parent, maps);
+    // await createChildrens(parent, maps);
 
 
     //*****widgets*****//
 
-  /*  await createMenu({
-        path: '/widgets',
-        title: 'Widgets',
-        type: 'link',
-        icontype: 'widgets',
-        roles: ['SUPERADMIN']
-    });*/
+    /*  await createMenu({
+          path: '/widgets',
+          title: 'Widgets',
+          type: 'link',
+          icontype: 'widgets',
+          roles: ['SUPERADMIN']
+      });*/
 
 
     //*****charts*****//
 
-   /* await createMenu({
-        path: '/charts',
-        title: 'Charts',
-        type: 'link',
-        icontype: 'timeline',
-        roles: ['SUPERADMIN']
-    });*/
+    /* await createMenu({
+         path: '/charts',
+         title: 'Charts',
+         type: 'link',
+         icontype: 'timeline',
+         roles: ['SUPERADMIN']
+     });*/
 
     //*****calendar*****//
 
@@ -239,7 +239,7 @@ let createMenuItems = async () => {
         { path: 'user-page', title: 'User Page', ab: 'UP', roles: ['SUPERADMIN'] }
     ]
 
-   // await createChildrens(parent, pages);
+    // await createChildrens(parent, pages);
 
 }
 
