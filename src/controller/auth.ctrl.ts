@@ -16,7 +16,7 @@ class AuthController {
             let newUser = await new AuthService().register(company, user, req.body.user.password);
             res.send(newUser);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             logger.error("Code ====>>", error.code);
             logger.error("Message ====>>", error.message);
@@ -32,7 +32,7 @@ class AuthController {
             let auth = await new AuthService().authenticate(email, password);
             res.send(auth);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -47,7 +47,7 @@ class AuthController {
             let auth = await new AuthService().authenticateWithCompany(ruc, email, password);
             res.send(auth);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -60,7 +60,7 @@ class AuthController {
             await new AuthService().forgotPassword(req.body.email);
             res.send();
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
         }
@@ -72,7 +72,7 @@ class AuthController {
             await new AuthService().forgotPasswordWithCompany(req.params.ruc, req.body.email);
             res.send();
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
         }
@@ -83,7 +83,7 @@ class AuthController {
             await new AuthService().resetPassword(req.body.token, req.body.password);
             res.send();
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
         }
@@ -95,7 +95,7 @@ class AuthController {
             await new AuthService().activateAccount(req.params.userId);
             res.send();
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
         }

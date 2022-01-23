@@ -29,7 +29,7 @@ export class UserController extends BaseController<IUser>{
             let objectFound = await new UserService().findById(res.locals.jwtPayload.sub);
             res.send(objectFound);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.send(error?.message);
         }
@@ -41,7 +41,7 @@ export class UserController extends BaseController<IUser>{
             let objectFound = await new UserService().updatePassword(res.locals.jwtPayload.sub, req.body.password);
             res.send(objectFound);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.send(error?.message);
         }
@@ -55,7 +55,7 @@ export class UserController extends BaseController<IUser>{
             let user = await new UserService().createUser(req.body, req.body.password);
             res.send(user);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.send(error?.message);
         }

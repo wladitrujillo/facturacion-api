@@ -31,7 +31,7 @@ class InvoiceController {
             res.header('X-Total-Count', response.total);
             res.send(response.data);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -47,7 +47,7 @@ class InvoiceController {
             logger.debug("Invoice", invoice)
             res.send(invoice);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -64,7 +64,7 @@ class InvoiceController {
 
             res.status(200).send(newInvoice);
         }
-        catch (e) {
+        catch (e: any) {
             logger.error(e);
             res.status(500).send(e.message);
 
@@ -101,7 +101,7 @@ class InvoiceController {
 
             res.status(200).send(result);
         }
-        catch (e) {
+        catch (e: any) {
             logger.error(e);
             res.status(500).send(e.message);
 

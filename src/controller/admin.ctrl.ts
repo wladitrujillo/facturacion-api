@@ -22,7 +22,7 @@ class AdminController {
             let menu = await this.adminService.retrieveMenu(role);
             res.status(200).send(menu);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -36,7 +36,7 @@ class AdminController {
             let roles = await this.adminService.retrieveRoles();
             res.status(200).send(roles);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -50,7 +50,7 @@ class AdminController {
             let response: any = await this.adminService.getCatalogByName(req.params.name);
             res.send(response);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -64,7 +64,7 @@ class AdminController {
             let response: any = await this.adminService.getCompanyById(companyId);
             res.send(response);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -78,7 +78,7 @@ class AdminController {
             let response: any = await this.adminService.updateCompany(companyId, req.body);
             res.send(response);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -92,7 +92,7 @@ class AdminController {
             this.emailService.sendMail(req.body.email, "Email de prueba", "Este es un email de prueba para tu Facturero Agil")
             res.sendStatus(200);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 

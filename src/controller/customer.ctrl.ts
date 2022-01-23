@@ -20,7 +20,7 @@ class CustomerController extends BaseController<ICustomer> {
             let customer: ICustomer = await this._service.findOne({ taxId: taxId });
             res.send(customer);
         }
-        catch (e) {
+        catch (e: any) {
             logger.error(e);
             res.status(e.code).send(e.message);
         }

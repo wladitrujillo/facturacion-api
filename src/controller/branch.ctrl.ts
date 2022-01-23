@@ -20,7 +20,7 @@ class BranchController extends BaseController<IBranch> {
             let objectCreated = await new BranchService().createWithEstablishment(req.params.establishmentId, req.body);
             res.send(objectCreated);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
@@ -36,7 +36,7 @@ class BranchController extends BaseController<IBranch> {
             res.header('X-Total-Count', response.total);
             res.send(response.data);
         }
-        catch (error) {
+        catch (error: any) {
             logger.error(error);
             res.status(500).send(error.message);
 
