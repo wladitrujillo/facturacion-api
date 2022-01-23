@@ -70,9 +70,9 @@ class InvoiceService {
         const base = path.resolve('./src/report');
         logger.debug('Base', base);
         const options: CreateOptions = {
-            base: `file://${base}/`,
-            type: "pdf",
-            orientation: "portrait"
+            base: 'file://' + base + '/',
+            type: 'pdf',
+            orientation: 'portrait'
         }
         logger.debug('Options', options);
         await this.reportService.toPdf(`${base}/invoice.html`, invoice, options, res);
