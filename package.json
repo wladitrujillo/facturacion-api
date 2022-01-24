@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "cp .env dist/ && cp -R src/config dist/ && cp -R src/report dist/ && cp package.json dist/ && cp package-lock.json dist/",
+    "copy": "cp .env dist/ && cp -R src/config dist/ && cp -R src/report dist/ && cp -R src/views dist/ && cp package.json dist/ && cp package-lock.json dist/",
     "start": "nodemon",
     "build": "tsc&&npm run copy"
   },
