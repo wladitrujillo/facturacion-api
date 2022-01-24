@@ -6,6 +6,7 @@ import { PageRequest } from "../model/page-request";
 import { EmailService } from './mail.service';
 import { getLogger } from 'log4js';
 import { Types } from "mongoose";
+import { Email } from "../model/email";
 
 const logger = getLogger("UserService");
 class UserService extends CrudService<IUser> {
@@ -28,7 +29,13 @@ class UserService extends CrudService<IUser> {
         user.hasToUpdatePassword = true;
         user.hash = bcrypt.hashSync(password, 10);
         let userCreated: IUser = await this._repository.create(user);
-        this.emailService.sendMail(userCreated.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Ingresa en este <a href='${process.env.WEB_URL}/#/auth/login'>enlace</a></p>`);
+        let email: Email = {
+            to: userCreated.email,
+            subject: 'Cuenta Creada Exitosamente',
+            template: 'newuser',
+            context: { link: `${process.env.WEB_URL}/#/auth/login`, year: new Date().getFullYear() }
+        }
+        this.emailService.sendMail(email);
         return userCreated;
     }
 

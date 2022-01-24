@@ -3,6 +3,7 @@ import AdminService = require("../service/admin.service");
 import { EmailService } from "../service/mail.service";
 import { Request, Response } from "express";
 import { getLogger } from 'log4js';
+import { Email } from "../model/email";
 
 const logger = getLogger("MenuController");
 
@@ -89,7 +90,13 @@ class AdminController {
         logger.debug("Start testEmail:", req.body.email);
         try {
             let companyId = res.locals.jwtPayload.company;
-            this.emailService.sendMail(req.body.email, "Email de prueba", "Este es un email de prueba para tu Facturero Agil")
+            let email: Email = {
+                to: req.body.email,
+                subject: 'Prueba de Email',
+                template: 'emailtest',
+                context: { year: new Date().getFullYear() }
+            }
+            this.emailService.sendMail(email)
             res.sendStatus(200);
         }
         catch (error: any) {

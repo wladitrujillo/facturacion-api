@@ -9,6 +9,7 @@ import CompanyRepository = require("../repository/company.repository");
 import { EmailService } from "./mail.service";
 import ServiceException = require("./service.exception");
 import { Types } from 'mongoose';
+import { Email } from '../model/email';
 
 const logger = getLogger("AuthService");
 
@@ -35,7 +36,13 @@ class AuthService {
         user.role = 'SUPERADMIN';
 
         let userCreated: any = await this._userRepository.create(user);
-        this.emailService.sendMail(user.email, 'Cuenta Creada Exitosamente', `<h2>Bienvenido a tu Facturero Ágil</h2><p>Confirma tu correo electrónico en este <a href='${process.env.WEB_URL}/#/auth/activate-account/${userCreated._id}'>enlace</a></p>`);
+        let email: Email = {
+            to: user.email,
+            subject: 'Cuenta Creada Exitosasmente',
+            template: 'newaccount',
+            context: { link: `${process.env.WEB_URL}/#/auth/activate-account/${userCreated._id}`, year: new Date().getFullYear() }
+        }
+        this.emailService.sendMail(email);
     }
 
     async authenticate(email: string, password: string) {
@@ -81,8 +88,13 @@ class AuthService {
             throw new ServiceException(403, 'No autorizado')
 
         let token = this.forgotPasswordToken(user);
-
-        this.emailService.sendMail(email, 'Cambia tu contraseña', `Cambia tu contraseña en este <a href='${process.env.WEB_URL}/#/auth/reset-password/${token}'>enlace</a>`);
+        let emailDto: Email = {
+            to: email,
+            subject: 'Cambia tu contraseña',
+            template: 'changepassword',
+            context: { token: token, year: new Date().getFullYear() }
+        }
+        this.emailService.sendMail(emailDto);
     }
 
     async forgotPasswordWithCompany(ruc: string, email: string) {
@@ -92,8 +104,13 @@ class AuthService {
             throw new ServiceException(403, 'No autorizado')
 
         let token = this.forgotPasswordToken(user);
-
-        this.emailService.sendMail(email, 'Cambia tu contraseña', `Cambia tu contraseña en este <a href='${process.env.WEB_URL}/#/auth/reset-password/${token}'>enlace</a>`);
+        let emailDto: Email = {
+            to: email,
+            subject: 'Cambia tu contraseña',
+            template: 'changepassword',
+            context: { token: token, year: new Date().getFullYear() }
+        }
+        this.emailService.sendMail(emailDto);
     }
 
     async resetPassword(token: string, password: string) {
