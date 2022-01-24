@@ -92,7 +92,7 @@ class AuthService {
             to: email,
             subject: 'Cambia tu contraseña',
             template: 'changepassword',
-            context: { token: token, year: new Date().getFullYear() }
+            context: { link: `http://${process.env.WEB_URL}/#/auth/reset-password/${token}`, year: new Date().getFullYear() }
         }
         this.emailService.sendMail(emailDto);
     }
@@ -108,7 +108,7 @@ class AuthService {
             to: email,
             subject: 'Cambia tu contraseña',
             template: 'changepassword',
-            context: { token: token, year: new Date().getFullYear() }
+            context: { link: `http://${process.env.WEB_URL}/#/auth/reset-password/${token}`, year: new Date().getFullYear() }
         }
         this.emailService.sendMail(emailDto);
     }
