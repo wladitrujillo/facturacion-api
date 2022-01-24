@@ -26,22 +26,28 @@ class AuthService {
     }
 
     async register(company: ICompany, user: IUser, password: string) {
+        //Metodo que registra el usuario nuevo
         logger.debug('Start register', company, user);
-
+        //Crea la empresa
         let companyCreated = await this._companyRepository.create(company);
-
+        //resetea la id de la empresa
         user.company = companyCreated._id;
+        //encripta la contraseña
         user.hash = bcrypt.hashSync(password, 10);
+        //usuario desactivado
         user.active = false;
+        // asigna rol SUPERADMIN
         user.role = 'SUPERADMIN';
-
+        //Crea el usuario
         let userCreated: any = await this._userRepository.create(user);
+        //Asigna cuenta de email 
         let email: Email = {
             to: user.email,
-            subject: 'Cuenta Creada Exitosasmente',
+            subject: 'Cuenta Creada Exitosamente',
             template: 'newaccount',
             context: { link: `${process.env.WEB_URL}/#/auth/activate-account/${userCreated._id}`, year: new Date().getFullYear() }
         }
+        //envia el correo
         this.emailService.sendMail(email);
     }
 
@@ -81,7 +87,7 @@ class AuthService {
         //genera el token
         return token;
     }
-
+    //Olvido contraseña usuario propietario de empresa
     async forgotPassword(email: string) {
         let user: IUser = await this._userRepository.findOne({ role: 'SUPERADMIN', email });
         if (!user || !user.active)
@@ -96,7 +102,7 @@ class AuthService {
         }
         this.emailService.sendMail(emailDto);
     }
-
+    //Olvido contraseña para usuario de la empresa
     async forgotPasswordWithCompany(ruc: string, email: string) {
         let company: ICompany = await this._companyRepository.findOne({ ruc });
         let user: IUser = await this._userRepository.findOne({ company: company._id, email });
@@ -112,14 +118,14 @@ class AuthService {
         }
         this.emailService.sendMail(emailDto);
     }
-
+    //Cambio contraseña
     async resetPassword(token: string, password: string) {
         let jwtPayload = <any>jwt.verify(token, process.env.SECRET || '');
         let user = await this._userRepository.findById(jwtPayload.sub);
         user.hash = bcrypt.hashSync(password, 10);
         await this._userRepository.update(user._id, user);
     }
-
+    //Activa cuenta usuario
     async activateAccount(userId: string) {
         logger.debug('Start activateAccount', userId)
         await this._userRepository.update(this.toObjectId(userId), { active: true });
@@ -142,7 +148,7 @@ class AuthService {
         };
         return token;
     }
-
+    //Asigna token para cambio de contraseña
     private forgotPasswordToken(user: IUser) {
         const expiresIn = 60 * 5; //60 seg x 5 min 
         const secret = process.env.SECRET || '';
