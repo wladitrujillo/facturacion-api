@@ -45,7 +45,7 @@ class AuthService {
             to: user.email,
             subject: 'Cuenta Creada Exitosamente',
             template: 'newaccount',
-            context: { link: `${process.env.WEB_URL}/#/auth/activate-account/${userCreated._id}`, year: new Date().getFullYear() }
+            context: { link: `${process.env.WEB_URL}/#/auth/activate-account/${userCreated._id}` }
         }
         //envia el correo
         this.emailService.sendMail(email);
@@ -98,7 +98,7 @@ class AuthService {
             to: email,
             subject: 'Cambia tu contraseña',
             template: 'changepassword',
-            context: { link: `http://${process.env.WEB_URL}/#/auth/reset-password/${token}`, year: new Date().getFullYear() }
+            context: { link: `http://${process.env.WEB_URL}/#/auth/reset-password/${token}` }
         }
         this.emailService.sendMail(emailDto);
     }
@@ -113,8 +113,8 @@ class AuthService {
         let emailDto: Email = {
             to: email,
             subject: 'Cambia tu contraseña',
-            template: 'changepassword',
-            context: { link: `http://${process.env.WEB_URL}/#/auth/reset-password/${token}`, year: new Date().getFullYear() }
+            template: 'forgotpassword',
+            context: { link: `http://${process.env.WEB_URL}/#/auth/reset-password/${token}` }
         }
         this.emailService.sendMail(emailDto);
     }

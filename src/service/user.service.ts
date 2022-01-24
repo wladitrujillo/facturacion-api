@@ -33,7 +33,7 @@ class UserService extends CrudService<IUser> {
             to: userCreated.email,
             subject: 'Cuenta Creada Exitosamente',
             template: 'newuser',
-            context: { link: `${process.env.WEB_URL}/#/auth/login`, year: new Date().getFullYear() }
+            context: { link: `${process.env.WEB_URL}/#/auth/login-company`, username: userCreated.email }
         }
         this.emailService.sendMail(email);
         return userCreated;
