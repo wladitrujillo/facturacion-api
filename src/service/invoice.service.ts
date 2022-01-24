@@ -67,7 +67,7 @@ class InvoiceService {
         if (!invoice) {
             logger.error("Invoice Not Found");
         }
-        const base = path.resolve('./src/report');
+        const base = path.join(__dirname,'../report');
         logger.debug('Base', base);
         const options: CreateOptions = {
             base: 'file://' + base + '/',
