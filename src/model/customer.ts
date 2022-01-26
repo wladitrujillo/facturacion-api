@@ -1,14 +1,14 @@
 import { Document, Schema, Model, model, Types } from "mongoose";
 
 export interface ICustomer extends Document {
-    firstName: String;
-    lastName: String;
-    phone: String;
-    taxId: String;
-    address: String;
-    email: String;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    taxId: string;
+    address: string;
+    email: string;
     createdAt: Date;
-    active: Boolean;
+    active: boolean;
 }
 
 

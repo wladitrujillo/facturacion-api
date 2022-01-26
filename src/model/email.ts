@@ -3,4 +3,5 @@ export class Email {
     subject: string = '';
     template: string = '';
     context: any = {};
+    attachments?: any[];
 }

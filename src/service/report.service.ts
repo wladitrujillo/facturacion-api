@@ -7,13 +7,20 @@ import { getLogger } from 'log4js';
 const logger = getLogger("ReportService");
 class ReportService {
 
-    toPdf = async (template: string, data: any, options: CreateOptions, response: any) => {
-        logger.debug('Start toPdf template:', template)
+    toStream = async (template: string, data: any, options: CreateOptions, response: any) => {
         let compiled = await ejs.compile(readFileSync(template, 'utf-8'));
         let html = compiled(data);
         pdf.create(html, options).toStream((error, stream) => {
             if (error) logger.error(error);
             stream.pipe(response);
+        });
+    }
+
+    toFile = async (template: string, data: any, options: CreateOptions, path: string) => {
+        let compiled = await ejs.compile(readFileSync(template, 'utf-8'));
+        let html = compiled(data);
+        pdf.create(html, options).toFile(path, (error, stream) => {
+            if (error) logger.error(error);
         });
     }
 

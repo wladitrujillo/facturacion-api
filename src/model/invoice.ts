@@ -7,7 +7,7 @@ import { IInvoiceDetail } from "./invoice-detail";
 export interface IInvoice extends Document {
     company: ICompany | string;
     branch: IBranch | string;
-    customer: ICustomer | string;
+    customer: string;
     secuence: string;
     createdAt: Date;
     totalWithoutTax: number;

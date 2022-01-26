@@ -38,13 +38,13 @@ export class EmailService {
             to: email.to,
             subject: email.subject,
             template: email.template,
-            context: email.context
+            context: email.context,
+            attachments: email.attachments
         }
 
         smtpTransport.sendMail(mailOptions, function (error, response) {
-            if (error) {
-                logger.error(error);
-            }
+            if (error) logger.error(error);
+            logger.debug(response);
         });
 
     }
