@@ -72,13 +72,17 @@ class InvoiceService {
 
 
 
-        const base = path.join(__dirname, '../report');
+        const isWin = process.platform === "win32";
+        let base = path.join(__dirname, '../report');
+        if (isWin) base = base.replace(/\\/g, '/');
+
         logger.debug('Base', base);
         const options: CreateOptions = {
-            base: 'file://' + base + '/',
+            base: 'file://' + base + path.sep,
             type: 'pdf',
             orientation: 'portrait'
         }
+        logger.debug('options', options);
         let invoiceFound = await this.invoiceRespository.findById(this.toObjectId(createdInvoice._id));
         let filePath = path.join(__dirname, '../../pdf');
         let fileName = invoice.secuence + '.pdf';
@@ -107,10 +111,12 @@ class InvoiceService {
         if (!invoice) {
             logger.error("Invoice Not Found");
         }
-        const base = path.join(__dirname, '../report');
+        const isWin = process.platform === "win32";
+        let base = path.join(__dirname, '../report');
+        if (isWin) base = base.replace(/\\/g, '/');
         logger.debug('Base', base);
         const options: CreateOptions = {
-            base: 'file://' + base + '/',
+            base: 'file://' + base + path.sep,
             type: 'pdf',
             orientation: 'portrait'
         }
