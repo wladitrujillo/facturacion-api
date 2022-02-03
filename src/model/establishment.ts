@@ -3,6 +3,7 @@ import { Document, Schema, Model, model } from "mongoose";
 export interface IEstablishment extends Document {
     code: String;
     name: String;
+    phone: String;
     address: String;
     active: Boolean;
 
@@ -24,9 +25,15 @@ let EstablishmentSchema = new Schema({
         required: true,
         trim: true
     },
+    phone: {
+        type: String,
+        required: false,
+        trim: true
+    },
     address: {
         type: String,
-        required: false
+        required: false,
+        trim: true
     },
     active: {
         type: Boolean,
