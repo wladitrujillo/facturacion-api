@@ -56,10 +56,10 @@ class AuthService {
         let user: IUser = await this._userRepository.findOne({ role: 'SUPERADMIN', email });
         //si no existe el usuario 
         if (!user)
-            throw new ServiceException(403, "Ingreso no permitido");
+            throw new ServiceException(403, "No existe este usuario como dueño de una empresa");
         //si el usuario no esta activo
         if (!user.active)
-            throw new ServiceException(403, "Tu cuenta no esta activa revisa to correo para activar tu cuenta");
+            throw new ServiceException(403, "Tu cuenta no esta activa revisa to correo o comunicate con el administrador para activar tu cuenta");
         //si la contraseña no coincide 
         if (!bcrypt.compareSync(password, String(user.hash)))
             throw new ServiceException(403, "Ingreso no permitido");
@@ -75,7 +75,7 @@ class AuthService {
         let user: IUser = await this._userRepository.findOne({ company: company._id, email });
         //si no existe el usuario 
         if (!user)
-            throw new ServiceException(403, "Ingreso no permitido");
+            throw new ServiceException(403, "Usuario no existe");
         //si el usuario no esta activo
         if (!user.active)
             throw new ServiceException(403, "Tu cuenta no esta activa revisa to correo para activar tu cuenta");
@@ -90,8 +90,11 @@ class AuthService {
     //Olvido contraseña usuario propietario de empresa
     async forgotPassword(email: string) {
         let user: IUser = await this._userRepository.findOne({ role: 'SUPERADMIN', email });
-        if (!user || !user.active)
-            throw new ServiceException(403, 'No autorizado')
+        if (!user)
+            throw new ServiceException(403, 'No existe una cuenta raiz con este usuario');
+
+        if (!user.active)
+            throw new ServiceException(403, 'Tu cuenta no esta activa revisa tu correo o comunicate con el administrador para activar tu cuenta');
 
         let token = this.forgotPasswordToken(user);
         let emailDto: Email = {
@@ -106,8 +109,8 @@ class AuthService {
     async forgotPasswordWithCompany(ruc: string, email: string) {
         let company: ICompany = await this._companyRepository.findOne({ ruc });
         let user: IUser = await this._userRepository.findOne({ company: company._id, email });
-        if (!user || !user.active)
-            throw new ServiceException(403, 'No autorizado')
+        if (!user)
+            throw new ServiceException(403, 'Usuario no existe')
 
         let token = this.forgotPasswordToken(user);
         let emailDto: Email = {
