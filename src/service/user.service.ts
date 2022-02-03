@@ -1,4 +1,5 @@
 import UserRepository from "./../repository/user.repository";
+import CompanyRepository from "../repository/company.repository";
 import { IUser } from "../model/user";
 import CrudService from "./crud.service";
 import bcrypt from "bcryptjs";
@@ -7,15 +8,18 @@ import { EmailService } from './mail.service';
 import { getLogger } from 'log4js';
 import { Types } from "mongoose";
 import { Email } from "../model/email";
+import { ICompany } from "../model/company";
 
 const logger = getLogger("UserService");
 class UserService extends CrudService<IUser> {
 
 
+    private companyRepository: CompanyRepository;
     private emailService: EmailService;
 
     constructor() {
         super(new UserRepository());
+        this.companyRepository = new CompanyRepository();
         this.emailService = new EmailService();
     }
 
@@ -28,12 +32,13 @@ class UserService extends CrudService<IUser> {
     async createUser(user: IUser, password: string): Promise<IUser> {
         user.hasToUpdatePassword = true;
         user.hash = bcrypt.hashSync(password, 10);
+        let company: ICompany = await this.companyRepository.findById(user.company);
         let userCreated: IUser = await this._repository.create(user);
         let email: Email = {
             to: userCreated.email,
             subject: 'Cuenta Creada Exitosamente',
             template: 'newuser',
-            context: { link: `${process.env.WEB_URL}/#/auth/login-company`, username: userCreated.email }
+            context: { link: `${process.env.WEB_URL}/#/auth/login-company?ruc=${company.ruc}`, username: userCreated.email }
         }
         this.emailService.sendMail(email);
         return userCreated;

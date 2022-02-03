@@ -39,7 +39,7 @@ class AuthService {
         // asigna rol SUPERADMIN
         user.role = 'SUPERADMIN';
         //Crea el usuario
-        let userCreated: any = await this._userRepository.create(user);
+        let userCreated: IUser = await this._userRepository.create(user);
         //Asigna cuenta de email 
         let email: Email = {
             to: user.email,
