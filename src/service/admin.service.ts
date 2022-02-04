@@ -6,9 +6,9 @@ import CatalogRepository from '../repository/catalog.repository';
 import MenuRepository from '../repository/menu.repository';
 import RoleRepository from '../repository/role.repository';
 import CompanyRepository from '../repository/company.repository';
-import UserRepository from '../repository/user.repository';
-import { EmailService } from './mail.service';
-import { IUser } from '../model/user';
+import CountryRepository from '../repository/country.repository';
+import StateRepository from '../repository/state.repository';
+import CityRepository from '../repository/city.respository';
 
 class AdminService {
 
@@ -16,16 +16,18 @@ class AdminService {
     private roleRepository: RoleRepository;
     private catalogRepository: CatalogRepository;
     private companyRepository: CompanyRepository;
-    private userRepository: UserRepository;
-    private emailService: EmailService;
+    private countryRepository: CountryRepository;
+    private stateRepository: StateRepository;
+    private cityRepository: CityRepository;
 
     constructor() {
         this.menuRepository = new MenuRepository();
         this.roleRepository = new RoleRepository();
         this.catalogRepository = new CatalogRepository();
         this.companyRepository = new CompanyRepository();
-        this.userRepository = new UserRepository();
-        this.emailService = new EmailService();
+        this.countryRepository = new CountryRepository();
+        this.stateRepository = new StateRepository();
+        this.cityRepository = new CityRepository();
     }
 
     retrieveByParent = async (parentId: String, roleId: string) => {
@@ -60,6 +62,18 @@ class AdminService {
 
     updateCompany = (_id: string, company: ICompany) => {
         return this.companyRepository.update(this.toObjectId(_id), company);
+    }
+
+    getCountries = () => {
+        return this.countryRepository.retrieveAll({});
+    }
+
+    getStates = (country: string) => {
+        return this.countryRepository.retrieveAll({ country });
+    }
+
+    getCities = (state: string) => {
+        return this.countryRepository.retrieveAll({ state });
     }
 
     private toObjectId(_id: string): Types.ObjectId {

@@ -26,9 +26,19 @@ export class AdminRoutes {
         this.router.route("/catalog/:name")
             .get(adminController.getCatalogByName);
 
+        this.router.route("/country")
+            .get(adminController.getCountries);
+
+        this.router.route("/country/:country/state")
+            .get(adminController.getStates);
+
+        this.router.route("/country/:country/state/:state/city")
+            .get(adminController.getCities);
+
         this.router.route("/company")
             .get(adminController.getCompany)
-            .put(adminController.updateCompany)
+            .put(adminController.updateCompany);
+
         this.router.route("/testEmail")
             .put(adminController.testEmail);
     }

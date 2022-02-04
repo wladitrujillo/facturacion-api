@@ -30,13 +30,15 @@ const Role = require('./scripts/role');
 const Menu = require('./scripts/menu');
 const Catalog = require('./scripts/catalog');
 const Tax = require('./scripts/tax');
+const Country = require('./scripts/ecuador.country');
 
 let fillData = async () => {
 
-  await Role.createRoles(); 
-  await Menu.createMenuItems();
-  await Catalog.createCatalogs();
-  await Tax.createTaxValues();
+  //await Role.createRoles(); 
+  //await Menu.createMenuItems();
+  //await Catalog.createCatalogs();
+  //await Tax.createTaxValues();
+  await Country.createCountry();
   // All done, disconnect from database
   mongoose.connection.close();
 }

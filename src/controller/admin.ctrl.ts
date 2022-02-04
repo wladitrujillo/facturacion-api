@@ -105,5 +105,44 @@ class AdminController {
 
         }
     }
+
+    getCountries = async (req: Request, res: Response) => {
+        logger.debug("Start getCountries");
+        try {
+            let response: any = await this.adminService.getCountries();
+            res.send(response);
+        }
+        catch (error: any) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
+
+    getStates = async (req: Request, res: Response) => {
+        logger.debug("Start getStates");
+        try {
+            let response: any = await this.adminService.getStates(req.params.country);
+            res.send(response);
+        }
+        catch (error: any) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
+
+    getCities = async (req: Request, res: Response) => {
+        logger.debug("Start getCities");
+        try {
+            let response: any = await this.adminService.getCities(req.params.state)
+            res.send(response);
+        }
+        catch (error: any) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
 }
 export = AdminController;
