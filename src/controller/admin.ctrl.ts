@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import { getLogger } from 'log4js';
 import { Email } from "../model/email";
 
-const logger = getLogger("MenuController");
+const logger = getLogger("AdminController");
 
 class AdminController {
 
@@ -120,9 +120,14 @@ class AdminController {
     }
 
     getStates = async (req: Request, res: Response) => {
-        logger.debug("Start getStates");
+        logger.debug("Start getStates country", req.params.country);
         try {
-            let response: any = await this.adminService.getStates(req.params.country);
+            let response: any = [];
+
+            let country: string = req.params.country;
+            if (country != 'null') {
+                response = await this.adminService.getStates(country);
+            }
             res.send(response);
         }
         catch (error: any) {
@@ -133,9 +138,12 @@ class AdminController {
     }
 
     getCities = async (req: Request, res: Response) => {
-        logger.debug("Start getCities");
+        logger.debug("Start getCities country %s state %s", req.params.country, req.params.state);
         try {
-            let response: any = await this.adminService.getCities(req.params.state)
+            let response: any = [];
+            if (req.params.state != 'null')
+                response = await this.adminService.getCities(req.params.state)
+
             res.send(response);
         }
         catch (error: any) {

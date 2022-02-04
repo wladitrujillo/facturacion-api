@@ -9,6 +9,7 @@ export interface IUser extends Document {
     phone: Number;
     urlImage: string;
     country: string;
+    state: string;
     city: string;
     postal: string;
     address: string;
@@ -70,6 +71,10 @@ let UserSchema = new Schema({
         required: false
     },
     country: {
+        type: String,
+        required: false
+    },
+    state: {
         type: String,
         required: false
     },

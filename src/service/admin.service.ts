@@ -69,11 +69,11 @@ class AdminService {
     }
 
     getStates = (country: string) => {
-        return this.countryRepository.retrieveAll({ country });
+        return this.stateRepository.retrieveAll({ country: this.toObjectId(country) });
     }
 
     getCities = (state: string) => {
-        return this.countryRepository.retrieveAll({ state });
+        return this.cityRepository.retrieveAll({ state: this.toObjectId(state) });
     }
 
     private toObjectId(_id: string): Types.ObjectId {
