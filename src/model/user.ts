@@ -31,6 +31,11 @@ let UserSchema = new Schema({
         ref: 'Role',
         required: true
     },
+    branch: {
+        type: Types.ObjectId,
+        ref: 'Branch',
+        required: false
+    },
     firstName: {
         type: String,
         required: false,
