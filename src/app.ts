@@ -18,6 +18,7 @@ import { ProductRoutes } from './routes/product.route';
 import { CustomerRoutes } from './routes/customer.route';
 import { InvoiceRoutes } from './routes/invoice.route';
 import { ReportRoutes } from './routes/report.route';
+import { ProductCategoryRoutes } from './routes/product.category.route';
 
 class App {
 
@@ -37,6 +38,7 @@ class App {
     this.app.use("/api/admin", [checkJwt], new AdminRoutes().router);
     this.app.use("/auth", new AuthRoutes().router);
     this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
+    this.app.use("/api/product-category", [checkJwt], new ProductCategoryRoutes().router);
     this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
     this.app.use("/api/invoice", [checkJwt], new InvoiceRoutes().router);
     this.app.use("/api/report", new ReportRoutes().router);

@@ -1,13 +1,15 @@
-
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, Model, Schema, model, Types } from 'mongoose';
 
 export interface IProduct extends Document {
+    _id: Types.ObjectId;
+    category: Types.ObjectId;
+    name: string;
     code: string;
     auxCode: string;
-    name: string;
     description: string;
-    active: string;
     createdAt: Date;
+    active: string;
+    type: string;
     price: Number;
 }
 
@@ -17,6 +19,11 @@ let ProductSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Company',
         required: true
+    },
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: false
     },
     name: {
         type: String,
