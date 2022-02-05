@@ -1,4 +1,5 @@
 import { Document, Model, Schema, model, Types } from 'mongoose';
+import { ITaxValue } from './tax-value';
 
 export interface IProduct extends Document {
     _id: Types.ObjectId;
@@ -11,6 +12,7 @@ export interface IProduct extends Document {
     active: string;
     type: string;
     price: Number;
+    taxes: ITaxValue[];
 }
 
 

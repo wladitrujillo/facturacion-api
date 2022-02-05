@@ -24,7 +24,7 @@ let TaxValueSchema = new Schema({
     },
     code: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     percentage: {
@@ -33,16 +33,16 @@ let TaxValueSchema = new Schema({
     },
     retention: {
         type: Number,
-        required: true
+        required: false
     },
     description: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     type: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     active: {
