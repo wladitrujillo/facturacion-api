@@ -1,7 +1,6 @@
 import { Document, Schema, Model, model } from "mongoose";
 import { IBranch } from "./branch";
 import { ICompany } from "./company";
-import { ICustomer } from "./customer";
 import { IInvoiceDetail } from "./invoice-detail";
 
 export interface IInvoice extends Document {
@@ -13,6 +12,12 @@ export interface IInvoice extends Document {
     totalWithoutTax: number;
     total: number;
     detail: IInvoiceDetail[];
+}
+
+export interface IPayment {
+    code: string;
+    description: string;
+    value: number;
 }
 
 let InvoiceSchema = new Schema({
@@ -29,6 +34,18 @@ let InvoiceSchema = new Schema({
     customer: {
         type: Schema.Types.ObjectId,
         ref: 'Customer',
+        required: true
+    },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    taxId: {
+        type: String,
         required: true
     },
     secuence: {
@@ -53,7 +70,24 @@ let InvoiceSchema = new Schema({
     detail: {
         type: Schema.Types.Array,
         ref: 'InvoiceDetail'
-    }
+    },
+    payments: [{
+        code: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        description: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        value: {
+            type: Number,
+            required: true,
+            default: 0
+        }
+    }]
 });
 
 
