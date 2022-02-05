@@ -152,5 +152,18 @@ class AdminController {
 
         }
     }
+
+    getTaxes = async (req: Request, res: Response) => {
+        logger.debug("Start getTaxes");
+        try {
+            let response = await this.adminService.getTaxes();
+            res.send(response);
+        }
+        catch (error: any) {
+            logger.error(error);
+            res.status(500).send(error.message);
+
+        }
+    }
 }
 export = AdminController;

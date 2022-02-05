@@ -19,6 +19,7 @@ import { CustomerRoutes } from './routes/customer.route';
 import { InvoiceRoutes } from './routes/invoice.route';
 import { ReportRoutes } from './routes/report.route';
 import { ProductCategoryRoutes } from './routes/product.category.route';
+import { TaxValueRoutes } from './routes/tax.value.route';
 
 class App {
 
@@ -39,6 +40,7 @@ class App {
     this.app.use("/auth", new AuthRoutes().router);
     this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
     this.app.use("/api/product-category", [checkJwt], new ProductCategoryRoutes().router);
+    this.app.use("/api/tax-value", [checkJwt], new TaxValueRoutes().router);
     this.app.use("/api/customer", [checkJwt], new CustomerRoutes().router);
     this.app.use("/api/invoice", [checkJwt], new InvoiceRoutes().router);
     this.app.use("/api/report", new ReportRoutes().router);

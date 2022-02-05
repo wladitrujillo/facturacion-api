@@ -1,18 +1,15 @@
-
 import { Router } from "express";
 import AdminController = require("../controller/admin.ctrl");
-
-
 export class AdminRoutes {
 
     router: Router;
-
 
     constructor() {
         this.router = Router();
         this.routes();
 
     }
+
     routes() {
 
         let adminController = new AdminController();
@@ -34,6 +31,9 @@ export class AdminRoutes {
 
         this.router.route("/country/:country/state/:state/city")
             .get(adminController.getCities);
+
+        this.router.route("/tax")
+            .put(adminController.getTaxes);
 
         this.router.route("/company")
             .get(adminController.getCompany)
