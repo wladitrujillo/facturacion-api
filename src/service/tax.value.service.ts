@@ -1,4 +1,4 @@
-import TaxValueRepository from "./../repository/product.category.repository";
+import TaxValueRepository from "./../repository/tax.value.repository";
 import { ITaxValue } from "../model/tax-value";
 import CrudService from "./crud.service";
 

@@ -34,10 +34,10 @@ class App {
 
   private routes(): void {
     // Rutas con autenticacion de token
+    this.app.use("/auth", new AuthRoutes().router);
     this.app.use("/api/user", [checkJwt], new UserRoutes().router);
     this.app.use("/api/establishment", [checkJwt], new EstablishmentRoutes().router);
     this.app.use("/api/admin", [checkJwt], new AdminRoutes().router);
-    this.app.use("/auth", new AuthRoutes().router);
     this.app.use("/api/product", [checkJwt], new ProductRoutes().router);
     this.app.use("/api/product-category", [checkJwt], new ProductCategoryRoutes().router);
     this.app.use("/api/tax-value", [checkJwt], new TaxValueRoutes().router);

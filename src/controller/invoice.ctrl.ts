@@ -21,11 +21,9 @@ class InvoiceController {
     }
 
     retrieve = async (req: Request, res: Response) => {
-        logger.debug("Start retrive");
         try {
 
             let company = res.locals.jwtPayload.company;
-            logger.debug('Company:', company)
             let pageRequest = new PageRequest(req);
             let response: any = await this.invoiceService.retrieve({ company }, pageRequest);
             res.header('X-Total-Count', response.total);
@@ -38,13 +36,10 @@ class InvoiceController {
         }
     }
     findById = async (req: Request, res: Response) => {
-        logger.debug("Start findById", req.params._id);
         try {
 
             let company = res.locals.jwtPayload.company;
-            logger.debug('Company:', company)
             let invoice: IInvoice = await this.invoiceService.findById(req.params._id);
-            logger.debug("Invoice", invoice)
             res.send(invoice);
         }
         catch (error: any) {

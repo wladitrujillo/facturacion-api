@@ -16,7 +16,6 @@ abstract class BaseController<T extends mongoose.Document> {
     }
 
     create = async (req: Request, res: Response) => {
-        logger.debug("Start create");
         try {
             req.body.company = res.locals.jwtPayload.company;
             let objectParam: T = <T>req.body;
@@ -31,7 +30,6 @@ abstract class BaseController<T extends mongoose.Document> {
     }
 
     update = async (req: Request, res: Response) => {
-        logger.debug("Start update");
         try {
             var objectParam: T = <T>req.body;
             let objectUpdated = await this._service.update(req.params._id, objectParam);
@@ -45,7 +43,6 @@ abstract class BaseController<T extends mongoose.Document> {
     }
 
     delete = async (req: Request, res: Response) => {
-        logger.debug("Start delete");
         try {
             await this._service.delete(req.params._id);
             res.send({ "success": "success" })
@@ -58,11 +55,8 @@ abstract class BaseController<T extends mongoose.Document> {
     }
 
     retrieve = async (req: Request, res: Response) => {
-        logger.debug("Start retrive");
         try {
-
             let company = res.locals.jwtPayload.company;
-            logger.debug('Company:', company)
             let pageRequest = new PageRequest(req);
             let response: any = await this._service.retrieve({ company }, pageRequest);
             res.header('X-Total-Count', response.total);
@@ -76,7 +70,6 @@ abstract class BaseController<T extends mongoose.Document> {
     }
 
     findById = async (req: Request, res: Response) => {
-        logger.debug("Start findById");
         try {
             let objectFound = await this._service.findById(req.params._id);
             res.send(objectFound);

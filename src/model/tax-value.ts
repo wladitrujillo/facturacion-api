@@ -54,8 +54,5 @@ let TaxValueSchema = new Schema({
 
 });
 
-
-TaxValueSchema.index({ company: 1 }, { unique: true });
-
 export const TaxValue: Model<ITaxValue> = model<ITaxValue>("TaxValue", TaxValueSchema);
 
