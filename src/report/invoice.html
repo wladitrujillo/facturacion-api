@@ -18,16 +18,13 @@
             <div class="col-xs-7" style="padding-right: 3px;">
                 <img class="logo" src="logo.png" alt="">
                 <div id="company" class="card">
-                    <div>
-                        <strong>RUC :</strong>
-                        <span>
-                            <%=company.ruc%>
-                        </span>
-                    </div>
+
 
                     <div>
                         <strong>Dirección Matriz :</strong>
-                        <span>La Concordia</span>
+                        <span>
+                            <%=company.address%>
+                        </span>
                     </div>
                     <div>
                         <strong>Dirección Sucursal :</strong>
@@ -35,52 +32,29 @@
                             <%=branch.establishment.address%>
                         </span>
                     </div>
-                    <div>
-                        <strong>Contribuyente Especial Resolución N° :</strong>
-                        <span>145</span>
-                    </div>
-                    <div>
-                        <strong>OBLIGADO A LLEVAR CONTABILIDAD :</strong>
-                        <span>SI</span>
-                    </div>
                 </div>
             </div>
             <div class="col-xs-5" style="padding-left: 3px;">
                 <div id="factura" class="card">
-                    <div><strong>FACTURA</strong></div>
-
-                    <div>
+                    <div style="font-size: 10px;">
+                        <strong>RUC :</strong>
+                        <span>
+                            <%=company.ruc%>
+                        </span>
+                    </div>
+                    <br>
+                    <div style="font-size:20px;text-align:center;"><strong>FACTURA</strong></div>
+                    <div style="font-size: 20px;">
                         <strong>No</strong>
-                        <span style="color: #FF0000;">
+                        <span>
                             <%=secuence%>
                         </span>
                     </div>
-
+                    <br>
                     <div>
                         <strong>NÚMERO DE AUTORIZACIÓN :</strong>
 
-                    </div>
-
-                    <div>
                         <span>12345678909876543</span>
-
-                    </div>
-                    <div class="ambiente">
-
-                        <div>
-                            <strong>AMBIENTE :</strong>
-                            <span>PRUEBA</span>
-                        </div>
-
-                        <div>
-                            <strong>EMISION :</strong>
-                            <span>NORMAL</span>
-                        </div>
-
-                        <div>
-                            <strong>CLAVE DE ACCESO :</strong>
-                            <img class="codigo-barra" src="codigo.png" alt="">
-                        </div>
                     </div>
 
                 </div>
@@ -96,14 +70,14 @@
                     <div class="float-left">
                         <strong>Razón Social / Nombre y Apellidos :</strong>
                         <span>
-                            <%=customer.firstName%>
-                                <%=customer.lastName%>
+                            <%=firstName%>
+                                <%=lastName%>
                         </span>
                     </div>
                     <div class="pull-right">
                         <strong>Cédula :</strong>
                         <span>
-                            <%= customer.taxId%>
+                            <%=taxId%>
                         </span>
                     </div>
 
@@ -149,10 +123,12 @@
                                     <%=detail[i].quantity%>
                                 </td>
                                 <td>
-                                    <%=detail[i].price%>
+                                    $<%=detail[i].price.toLocaleString(undefined, { minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2 })%>
                                 </td>
                                 <td>
-                                    <%=detail[i].total%>
+                                    $<%=detail[i].total.toLocaleString(undefined, { minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2 })%>
                                 </td>
                             </tr>
                             <% }%>
@@ -204,7 +180,8 @@
                         <tr>
                             <th scope="col">SUBTOTAL</th>
                             <th scope="col">
-                                $<%=totalWithoutTax%>
+                                $<%=totalWithoutTax.toLocaleString(undefined, { minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2 })%>
                             </th>
 
                         </tr>
@@ -212,7 +189,8 @@
 
                             <th scope="col">IVA</th>
                             <th scope="col">
-                                $<%=total-totalWithoutTax%>
+                                $<%=(total-totalWithoutTax).toLocaleString(undefined, { minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2 })%>
                             </th>
 
                         </tr>
@@ -230,7 +208,8 @@
 
                             <th scope="col">TOTAL</th>
                             <th scope="col">
-                                $<%=total%>
+                                $<%=total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2
+                                    })%>
                             </th>
                         </tr>
                     </tbody>

@@ -55,21 +55,20 @@ class InvoiceService {
         branch.next = branch.next + 1;
         logger.debug('branch', branch);
         await this.branchRepository.update(branch._id, branch);
+        let customer: ICustomer = await this.customerRepository.findById(this.toObjectId(invoice.customer));
         invoice.branch = branchId;
         invoice.secuence = establishment.code + "-" + branch.code + "-" + "0".repeat(5) + branch.next;
+        invoice.firstName = customer.firstName;
+        invoice.lastName = customer.lastName;
+        invoice.taxId = customer.taxId;
+
         let createdInvoice = await this.invoiceRespository.create(invoice);
-
         let createdDetail;
-
         for (let detail of invoice.detail) {
             detail.company = createdInvoice.company;
             detail.invoice = createdInvoice._id;
             createdDetail = await this.invoiceDetailRespository.create(detail);
         }
-
-
-        let customer: ICustomer = await this.customerRepository.findById(this.toObjectId(invoice.customer));
-
 
 
         const isWin = process.platform === "win32";

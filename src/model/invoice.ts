@@ -7,6 +7,9 @@ export interface IInvoice extends Document {
     company: ICompany | string;
     branch: IBranch | string;
     customer: string;
+    firstName: string;
+    lastName: string;
+    taxId: string;
     secuence: string;
     createdAt: Date;
     totalWithoutTax: number;
