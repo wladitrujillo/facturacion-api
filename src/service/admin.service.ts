@@ -1,7 +1,5 @@
 import { Types } from 'mongoose';
-
 import { ICompany } from '../model/company';
-
 import CatalogRepository from '../repository/catalog.repository';
 import MenuRepository from '../repository/menu.repository';
 import RoleRepository from '../repository/role.repository';
@@ -9,9 +7,6 @@ import CompanyRepository from '../repository/company.repository';
 import CountryRepository from '../repository/country.repository';
 import StateRepository from '../repository/state.repository';
 import CityRepository from '../repository/city.respository';
-import TaxRepository from '../repository/tax.repository';
-import TaxValueRepository from '../repository/tax.value.repository';
-import { ITaxValue } from '../model/tax-value';
 
 class AdminService {
 
@@ -22,8 +17,6 @@ class AdminService {
     private countryRepository: CountryRepository;
     private stateRepository: StateRepository;
     private cityRepository: CityRepository;
-    private taxRepository: TaxRepository;
-    private taxValueRepository: TaxValueRepository;
 
     constructor() {
         this.menuRepository = new MenuRepository();
@@ -33,8 +26,6 @@ class AdminService {
         this.countryRepository = new CountryRepository();
         this.stateRepository = new StateRepository();
         this.cityRepository = new CityRepository();
-        this.taxRepository = new TaxRepository();
-        this.taxValueRepository = new TaxValueRepository();
     }
 
     retrieveByParent = async (parentId: String, roleId: string) => {
@@ -81,10 +72,6 @@ class AdminService {
 
     getCities = (state: string) => {
         return this.cityRepository.retrieveAll({ state: this.toObjectId(state) });
-    }
-
-    getTaxes = () => {
-        return this.taxRepository.retrieveAll({});
     }
 
     private toObjectId(_id: string): Types.ObjectId {

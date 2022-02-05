@@ -2,31 +2,38 @@ import { Document, Schema, Model, model } from "mongoose";
 
 
 export interface ITaxValue extends Document {
-    name: String;
+    tax: String;
+    code: String;
+    percentage: Number;
+    description: String;
+    retention: Number;
+    type: String;
     active: Boolean;
 }
 
 
 let TaxValueSchema = new Schema({
-    _id: {
+    company: {
+        type: Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
+    tax: {
+        type: String,
+        required: true
+    },
+    code: {
         type: String,
         required: true,
         trim: true
     },
-    tax: {
-        type: Schema.Types.ObjectId,
-        ref: 'Tax',
-        required: true
-    },
     percentage: {
         type: Number,
-        required: true,
-        trim: true
+        required: true
     },
     retention: {
         type: Number,
-        required: true,
-        trim: true
+        required: true
     },
     description: {
         type: String,
@@ -38,7 +45,6 @@ let TaxValueSchema = new Schema({
         required: true,
         trim: true
     },
-
     active: {
         type: Boolean,
         required: true,
@@ -49,7 +55,7 @@ let TaxValueSchema = new Schema({
 });
 
 
-TaxValueSchema.index({ _id: 1, tax: 1 }, { unique: true });
+TaxValueSchema.index({ company: 1 }, { unique: true });
 
 export const TaxValue: Model<ITaxValue> = model<ITaxValue>("TaxValue", TaxValueSchema);
 

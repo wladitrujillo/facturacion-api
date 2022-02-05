@@ -32,9 +32,6 @@ export class AdminRoutes {
         this.router.route("/country/:country/state/:state/city")
             .get(adminController.getCities);
 
-        this.router.route("/tax")
-            .put(adminController.getTaxes);
-
         this.router.route("/company")
             .get(adminController.getCompany)
             .put(adminController.updateCompany);
