@@ -55,7 +55,7 @@ const aggregation2 = [
 // Run the aggregation and open a cursor to the results.
 // Use toArray() to exhaust the cursor to return the whole result set.
 // You can use hasNext()/next() to iterate through the cursor page by page.
-db.invoicedetails.aggregate([
+/*db.invoicedetails.aggregate([
   {
     $lookup:{
       from:'products',
@@ -93,4 +93,17 @@ db.invoicedetails.aggregate([
     $limit:10
   }
 
-]);
+]);*/
+
+
+db.customers.aggregate([{
+    '$search': {
+      'index': 'default',
+      'text': {
+        'query': 'maria',
+        'path': {
+          'wildcard': '*'
+        }
+      }
+    }
+  }]);
