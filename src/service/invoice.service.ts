@@ -116,14 +116,11 @@ class InvoiceService {
         const isWin = process.platform === "win32";
         let base = path.join(__dirname, '../report');
         if (isWin) base = base.replace(/\\/g, '/');
-        logger.debug('Base', base);
         const options: CreateOptions = {
             base: 'file://' + base + path.sep,
             type: 'pdf',
             orientation: 'portrait'
         }
-        logger.debug('Options', options);
-        logger.debug('Invoice', invoice);
         let paymentTypes = await this.catalogRepository.findOne({ name: 'payment_method' });
         await this.reportService.toStream(`${base}/invoice.html`, { invoice, paymentTypes }, options, res);
 
