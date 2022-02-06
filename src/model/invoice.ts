@@ -15,6 +15,7 @@ export interface IInvoice extends Document {
     totalWithoutTax: number;
     total: number;
     detail: IInvoiceDetail[];
+    payments: IPayment[];
 }
 
 export interface IPayment {
@@ -82,7 +83,7 @@ let InvoiceSchema = new Schema({
         },
         description: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         value: {

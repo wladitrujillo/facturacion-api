@@ -15,7 +15,7 @@ import { EmailService } from "./mail.service";
 import { Email } from "../model/email";
 import CustomerRepository from "../repository/customer.repository";
 import { ICustomer } from "../model/customer";
-
+import CatalogRepository from '../repository/catalog.repository';
 
 const logger = getLogger("InvoiceService");
 
@@ -28,6 +28,7 @@ class InvoiceService {
     private invoiceDetailRespository: InvoiceDetailRepository;
     private customerRepository: CustomerRepository;
     private reportService: ReportService;
+    private catalogRepository: CatalogRepository;
     private emailService: EmailService;
     constructor() {
         this.branchRepository = new BranchRepository();
@@ -36,6 +37,7 @@ class InvoiceService {
         this.invoiceDetailRespository = new InvoiceDetailRepository();
         this.customerRepository = new CustomerRepository();
         this.reportService = new ReportService();
+        this.catalogRepository = new CatalogRepository();
         this.emailService = new EmailService();
     }
 
@@ -86,7 +88,8 @@ class InvoiceService {
         let filePath = path.join(__dirname, '../../pdf');
         let fileName = invoice.secuence + '.pdf';
         logger.debug("filePath", filePath, "fileName", fileName);
-        await this.reportService.toFile(`${base}/invoice.html`, invoiceFound, options, filePath + '/' + fileName);
+        let paymentTypes = await this.catalogRepository.findOne({ name: 'payment_method' });
+        await this.reportService.toFile(`${base}/invoice.html`, { invoice: invoiceFound, paymentTypes }, options, filePath + '/' + fileName);
 
         let email: Email = {
             to: customer.email,
@@ -120,7 +123,9 @@ class InvoiceService {
             orientation: 'portrait'
         }
         logger.debug('Options', options);
-        await this.reportService.toStream(`${base}/invoice.html`, invoice, options, res);
+        logger.debug('Invoice', invoice);
+        let paymentTypes = await this.catalogRepository.findOne({ name: 'payment_method' });
+        await this.reportService.toStream(`${base}/invoice.html`, { invoice, paymentTypes }, options, res);
 
     }
 
