@@ -52,9 +52,7 @@
                     </div>
                     <br>
                     <div>
-                        <strong>NÚMERO DE AUTORIZACIÓN :</strong>
-
-                        <span>12345678909876543</span>
+                     
                     </div>
 
                 </div>
@@ -81,16 +79,12 @@
                         </span>
                     </div>
 
-
                     <div class="float-left">
                         <strong>Fecha :</strong>
                         <span>
                             <%=invoice.createdAt.toLocaleString() %>
                         </span>
                     </div>
-
-
-
 
                 </div>
             </div>
@@ -155,13 +149,13 @@
 
                         <%invoice.payments.forEach(function(payment){%>
                             <tr>
-                                <th scope="col">
+                                <td scope="col">
                                     <%=paymentTypes?.items.find(item=>item.code==payment.code)?.value%>
-                                </th>
-                                <th scope="col">
+                                </td>
+                                <td scope="col">
                                     $<%=payment.value.toLocaleString(undefined, { minimumFractionDigits: 2,
                                         maximumFractionDigits: 2 })%>
-                                </th>
+                                </td>
 
                             </tr>
                             <% }); %>
@@ -185,38 +179,38 @@
 
                         <tr>
                             <th scope="col">SUBTOTAL</th>
-                            <th scope="col">
+                            <td scope="col">
                                 $<%=invoice.totalWithoutTax.toLocaleString(undefined, { minimumFractionDigits: 2,
                                     maximumFractionDigits: 2 })%>
-                            </th>
+                            </td>
 
                         </tr>
                         <tr>
 
                             <th scope="col">IVA</th>
-                            <th scope="col">
+                            <td scope="col">
                                 $<%=(invoice.total-invoice.totalWithoutTax).toLocaleString(undefined, {
                                     minimumFractionDigits: 2, maximumFractionDigits: 2 })%>
-                            </th>
+                            </td>
 
                         </tr>
                         <tr>
 
                             <th scope="col">ICE</th>
-                            <th scope="col">$0.00</th>
+                            <td scope="col">$0.00</td>
                         </tr>
                         <tr>
 
                             <th scope="col">IBRPNR</th>
-                            <th scope="col">$0.00</th>
+                            <td scope="col">$0.00</td>
                         </tr>
                         <tr>
 
                             <th scope="col">TOTAL</th>
-                            <th scope="col">
+                            <td scope="col">
                                 $<%=invoice.total.toLocaleString(undefined, { minimumFractionDigits: 2,
                                     maximumFractionDigits: 2 })%>
-                            </th>
+                            </td>
                         </tr>
                     </tbody>
 
