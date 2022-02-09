@@ -132,22 +132,28 @@ class InvoiceService {
         logger.debug('criteria', criteria);
         logger.debug('pageRequest', pageRequest);
 
-
-        let search = {
-            company: this.toObjectId('61de49cb21a6ce34d46cd4c7'),
-            customer: this.toObjectId('61e3673a7269a4970e995490'),
-            createdAt: { $gte: new Date(2022, 0, 27), $lt: new Date(2022, 1, 23) },
-            branch: this.toObjectId('61e3679f7269a4970e9954b2')
-
-        };
-
         criteria['company'] = company;
 
         for (const property in criteria) {
             if (this.isObjetcId(criteria[property])) {
                 criteria[property] = this.toObjectId(criteria[property]);
             }
+
+            if (property == 'createdAt') {
+                if (criteria[property].$gte)
+                    criteria[property].$gte = new Date(criteria[property].$gte)
+                if (criteria[property].$gt)
+                    criteria[property].$gt = new Date(criteria[property].$gt)
+                if (criteria[property].$lte)
+                    criteria[property].$lte = new Date(criteria[property].$lte)
+                if (criteria[property].$lt)
+                    criteria[property].$lt = new Date(criteria[property].$lte)
+            }
+
         }
+
+
+        logger.debug('Criteria', criteria);
 
 
         let searchFilter: any[] = [

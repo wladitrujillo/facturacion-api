@@ -108,10 +108,9 @@ class InvoiceController {
 
             let company: string = res.locals.jwtPayload.company;
             let pageRequest = new PageRequest(req);
-            let result = await this.invoiceService.queryInvoice(company, req.body, pageRequest);
-
-
-            res.status(200).send(result);
+            let response = await this.invoiceService.queryInvoice(company, req.body, pageRequest);
+            res.header('X-Total-Count', response.total);
+            res.status(200).send(response.data);
         }
         catch (e: any) {
             logger.error(e);
