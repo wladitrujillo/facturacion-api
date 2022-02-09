@@ -95,15 +95,36 @@ const aggregation2 = [
 
 ]);*/
 
+let betweenDates = {
+  $gte: new Date(2022,0,22), $lt:new Date(2022,0,23)
+}
 
-db.customers.aggregate([{
-    '$search': {
-      'index': 'default',
-      'text': {
-        'query': 'maria',
-        'path': {
-          'wildcard': '*'
-        }
-      }
-    }
-  }]);
+let graterThan = {
+    $gte:new Date(2022,0,1)
+} 
+
+let customer = {
+  $eq:['$customer',ObjectId('61e3673a7269a4970e995490')]
+}
+
+
+
+db.invoices.aggregate([
+            {
+              $match: {
+                company:ObjectId('61fb4051181868e51abc1317'),
+                customer:ObjectId('61fd4c20981d1f024ccf3b21'),
+                branch:ObjectId('61fb5381d4d250ebf5a7e7a5')
+
+              }
+            },
+            {
+              $skip:0
+            },
+            {
+              $limit:3
+            },
+            {
+              $sort:{startDate:1}
+            }
+        ]);

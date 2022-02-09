@@ -1,10 +1,12 @@
 import { Document, Schema, Model, model } from "mongoose";
 import { IBranch } from "./branch";
 import { ICompany } from "./company";
+import { IEstablishment } from "./establishment";
 import { IInvoiceDetail } from "./invoice-detail";
 
 export interface IInvoice extends Document {
     company: ICompany | string;
+    establishment: IEstablishment;
     branch: IBranch | string;
     customer: string;
     firstName: string;
@@ -28,6 +30,11 @@ let InvoiceSchema = new Schema({
     company: {
         type: Schema.Types.ObjectId,
         ref: 'Company',
+        required: true
+    },
+    establishment: {
+        type: Schema.Types.ObjectId,
+        ref: 'Establishment',
         required: true
     },
     branch: {

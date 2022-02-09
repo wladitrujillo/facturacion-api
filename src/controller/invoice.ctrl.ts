@@ -102,5 +102,22 @@ class InvoiceController {
 
         }
     }
+
+    queryInvoices = async (req: Request, res: Response) => {
+        try {
+
+            let company: string = res.locals.jwtPayload.company;
+            let pageRequest = new PageRequest(req);
+            let result = await this.invoiceService.queryInvoice(company, req.body, pageRequest);
+
+
+            res.status(200).send(result);
+        }
+        catch (e: any) {
+            logger.error(e);
+            res.status(500).send(e.message);
+
+        }
+    }
 }
 export = InvoiceController;    

@@ -152,6 +152,9 @@ class IndicatorService {
             },
             {
                 $limit: 5
+            },
+            {
+                $count:"items"
             }
         ]);
 

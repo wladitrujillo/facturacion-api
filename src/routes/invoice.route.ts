@@ -21,6 +21,7 @@ export class InvoiceRoutes {
         this.router.route("/branch/:branchId")
             .post(controller.createInvoice);
         this.router.route("/indicator/:indicator").get(controller.indicators);
+        this.router.route("/query").put(controller.queryInvoices);
 
     }
 }

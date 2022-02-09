@@ -1,7 +1,7 @@
 import InvoiceRepository from "./../repository/invoice.repository";
 import BranchRepository from "./../repository/branch.repository";
 import EstablishmentRepository from "./../repository/establishment.repository";
-import { IInvoice } from "../model/invoice";
+import { IInvoice, Invoice } from "../model/invoice";
 import { IBranch } from "../model/branch";
 import { IEstablishment } from "../model/establishment";
 import { Types } from "mongoose";
@@ -58,6 +58,7 @@ class InvoiceService {
         logger.debug('branch', branch);
         await this.branchRepository.update(branch._id, branch);
         let customer: ICustomer = await this.customerRepository.findById(this.toObjectId(invoice.customer));
+        invoice.establishment = establishment._id;
         invoice.branch = branchId;
         invoice.secuence = establishment.code + "-" + branch.code + "-" + "0".repeat(5) + branch.next;
         invoice.firstName = customer.firstName;
@@ -126,8 +127,74 @@ class InvoiceService {
 
     }
 
+
+    async queryInvoice(company: string, criteria: any, pageRequest: PageRequest): Promise<any> {
+        logger.debug('criteria', criteria);
+        logger.debug('pageRequest', pageRequest);
+
+
+        let search = {
+            company: this.toObjectId('61de49cb21a6ce34d46cd4c7'),
+            customer: this.toObjectId('61e3673a7269a4970e995490'),
+            createdAt: { $gte: new Date(2022, 0, 27), $lt: new Date(2022, 1, 23) },
+            branch: this.toObjectId('61e3679f7269a4970e9954b2')
+
+        };
+
+        criteria['company'] = company;
+
+        for (const property in criteria) {
+            if (this.isObjetcId(criteria[property])) {
+                criteria[property] = this.toObjectId(criteria[property]);
+            }
+        }
+
+
+        let searchFilter: any[] = [
+            {
+                $match: criteria
+            },
+            {
+                $skip: pageRequest.pageSize * pageRequest.page
+            },
+            {
+                $limit: pageRequest.pageSize
+            }
+        ];
+
+
+        if (pageRequest.sort) {
+
+            let sortFilter: any = {}
+            let fields = pageRequest.sort.split(',');
+
+            fields.forEach(field => {
+                let order = field.indexOf('-') >= 0 ? -1 : 1;
+                sortFilter[field.replace(/\+|\-/ig, '')] = order;
+            });
+
+            logger.debug('sortFilter:', sortFilter)
+
+            searchFilter.push({ $sort: sortFilter });
+
+        }
+
+        let total = await Invoice.countDocuments(criteria);
+
+        logger.debug('seachFilter', searchFilter);
+        let data = await Invoice.aggregate(searchFilter);
+
+        return { total, data };
+
+    }
+
+
     private toObjectId(_id: string): Types.ObjectId {
         return new Types.ObjectId(_id);
+    }
+
+    private isObjetcId(_id: string): boolean {
+        return Types.ObjectId.isValid(_id);
     }
 
 
