@@ -129,8 +129,6 @@ class InvoiceService {
 
 
     async queryInvoice(company: string, criteria: any, pageRequest: PageRequest): Promise<any> {
-        logger.debug('criteria', criteria);
-        logger.debug('pageRequest', pageRequest);
 
         criteria['company'] = company;
 
@@ -151,10 +149,6 @@ class InvoiceService {
             }
 
         }
-
-
-        logger.debug('Criteria', criteria);
-
 
         let searchFilter: any[] = [
             {
@@ -179,15 +173,12 @@ class InvoiceService {
                 sortFilter[field.replace(/\+|\-/ig, '')] = order;
             });
 
-            logger.debug('sortFilter:', sortFilter)
-
             searchFilter.push({ $sort: sortFilter });
 
         }
 
         let total = await Invoice.countDocuments(criteria);
 
-        logger.debug('seachFilter', searchFilter);
         let data = await Invoice.aggregate(searchFilter);
 
         return { total, data };

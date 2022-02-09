@@ -46,7 +46,6 @@ class AdminController {
 
     getCatalogByName = async (req: Request, res: Response) => {
 
-        logger.debug("Start retriveCatalog");
         try {
             let response: any = await this.adminService.getCatalogByName(req.params.name);
             res.send(response);
@@ -59,7 +58,6 @@ class AdminController {
     }
 
     getCompany = async (req: Request, res: Response) => {
-        logger.debug("Start getCompany");
         try {
             let companyId = res.locals.jwtPayload.company;
             let response: any = await this.adminService.getCompanyById(companyId);
@@ -73,7 +71,6 @@ class AdminController {
     }
 
     updateCompany = async (req: Request, res: Response) => {
-        logger.debug("Start getCompany");
         try {
             let companyId = res.locals.jwtPayload.company;
             let response: any = await this.adminService.updateCompany(companyId, req.body);
@@ -87,7 +84,6 @@ class AdminController {
     }
 
     testEmail = async (req: Request, res: Response) => {
-        logger.debug("Start testEmail:", req.body.email);
         try {
             let companyId = res.locals.jwtPayload.company;
             let email: Email = {
@@ -107,7 +103,6 @@ class AdminController {
     }
 
     getCountries = async (req: Request, res: Response) => {
-        logger.debug("Start getCountries");
         try {
             let response: any = await this.adminService.getCountries();
             res.send(response);
@@ -120,7 +115,6 @@ class AdminController {
     }
 
     getStates = async (req: Request, res: Response) => {
-        logger.debug("Start getStates country", req.params.country);
         try {
             let response: any = [];
 
@@ -138,7 +132,6 @@ class AdminController {
     }
 
     getCities = async (req: Request, res: Response) => {
-        logger.debug("Start getCities country %s state %s", req.params.country, req.params.state);
         try {
             let response: any = [];
             if (req.params.state != 'null')
