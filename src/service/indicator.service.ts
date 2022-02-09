@@ -154,9 +154,11 @@ class IndicatorService {
                 $limit: 5
             },
             {
-                $count:"items"
+                $count: "items"
             }
         ]);
+
+        logger.debug("result", result);
 
         return result.map(element => ({ 'description': element._id[0].name, 'total': element.quantity }));
 
