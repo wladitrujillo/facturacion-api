@@ -18,16 +18,14 @@
             <div class="col-xs-7" style="padding-right: 3px;">
                 <img class="logo" src="logo.png" alt="">
                 <div id="company" class="card">
-
-
                     <div>
-                        <strong>Dirección Matriz :</strong>
+                        <strong>Dirección Matriz:</strong>
                         <span>
                             <%=invoice.company.address%>
                         </span>
                     </div>
                     <div>
-                        <strong>Dirección Sucursal :</strong>
+                        <strong>Dirección Sucursal:</strong>
                         <span white-space:normal;>
                             <%=invoice.branch.establishment.address%>
                         </span>
@@ -37,56 +35,60 @@
             <div class="col-xs-5" style="padding-left: 3px;">
                 <div id="factura" class="card">
                     <div style="font-size: 10px;">
-                        <strong>RUC :</strong>
+                        <strong>RUC:</strong>
                         <span>
                             <%=invoice.company.ruc%>
                         </span>
                     </div>
                     <br>
                     <div style="font-size:20px;text-align:center;"><strong>FACTURA</strong></div>
-                    <div style="font-size: 20px;">
+                    <div style="font-size: 15px;text-align: center;">
                         <strong>No</strong>
                         <span>
                             <%=invoice.secuence%>
                         </span>
                     </div>
                     <br>
-                    <div>
-                     
-                    </div>
-
                 </div>
             </div>
-
 
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <div class="card clearfix">
-
-
-                    <div class="float-left">
-                        <strong>Razón Social / Nombre y Apellidos :</strong>
+                <div class="card">
+                    <div>
+                        <strong>Razón Social / Nombre y Apellidos:</strong>
                         <span>
                             <%=invoice.firstName%>
                                 <%=invoice.lastName%>
                         </span>
                     </div>
-                    <div class="pull-right">
-                        <strong>Cédula :</strong>
+                    <div>
+                        <strong>Cédula:</strong>
                         <span>
                             <%=invoice.taxId%>
                         </span>
                     </div>
-
-                    <div class="float-left">
-                        <strong>Fecha :</strong>
+                    <div>
+                        <strong>Dirección:</strong>
+                        <span>
+                            <%=invoice.customer.address%>
+                        </span>
+                    </div>
+                    <div class="pull-right">
+                        <strong>Fecha:</strong>
                         <span>
                             <%=invoice.createdAt.toLocaleString() %>
                         </span>
                     </div>
-
+                    <div>
+                        <strong>Telefono:</strong>
+                        <span>
+                            <%=invoice.customer.phone%>
+                        </span>
+                    </div>
                 </div>
+
             </div>
 
         </div>

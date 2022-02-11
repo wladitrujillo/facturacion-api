@@ -24,7 +24,9 @@ abstract class BaseController<T extends mongoose.Document> {
         }
         catch (error: any) {
             logger.error(error);
-            res.status(500).send(error.message);
+            let message = error.message;
+            if (error.code == 11000) message = "Registro ya existe";
+            res.status(500).send(message);
 
         }
     }
