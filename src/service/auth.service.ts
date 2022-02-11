@@ -62,7 +62,7 @@ class AuthService {
             throw new ServiceException(403, "Tu cuenta no esta activa revisa to correo o comunicate con el administrador para activar tu cuenta");
         //si la contraseña no coincide 
         if (!bcrypt.compareSync(password, String(user.hash)))
-            throw new ServiceException(403, "Ingreso no permitido");
+            throw new ServiceException(403, "Email o Password Incorrecto");
 
         let token = this.createToken(user);
         //genera el token
@@ -81,7 +81,7 @@ class AuthService {
             throw new ServiceException(403, "Tu cuenta no esta activa revisa to correo para activar tu cuenta");
         //si la contraseña no coincide 
         if (!bcrypt.compareSync(password, String(user.hash)))
-            throw new ServiceException(403, "Ingreso no permitido");
+            throw new ServiceException(403, "Email o Password Incorrecto");
 
         let token = this.createToken(user);
         //genera el token
