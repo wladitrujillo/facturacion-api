@@ -57,6 +57,8 @@ export class UserController extends BaseController<IUser>{
         }
         catch (error: any) {
             logger.error(error);
+            let message = error.message;
+            if (error.code == 11000) message = "Registro ya existe";
             res.send(error?.message);
         }
 

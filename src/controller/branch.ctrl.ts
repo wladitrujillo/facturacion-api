@@ -22,6 +22,8 @@ class BranchController extends BaseController<IBranch> {
         }
         catch (error: any) {
             logger.error(error);
+            let message = error.message;
+            if (error.code == 11000) message = "Registro ya existe";
             res.status(500).send(error.message);
 
         }
