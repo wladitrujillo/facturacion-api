@@ -24,5 +24,10 @@ export class ProductCategoryRoutes {
             .put(categoryController.update)
             .delete(categoryController.delete);
 
+        this.router.route("/:category/product")
+            .get(categoryController.retrieve);
+
+
+
     }
 }
