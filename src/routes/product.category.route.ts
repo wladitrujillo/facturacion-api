@@ -25,7 +25,7 @@ export class ProductCategoryRoutes {
             .delete(categoryController.delete);
 
         this.router.route("/:category/product")
-            .get(categoryController.retrieve);
+            .get(categoryController.retrieveAllProducts);
 
 
 
