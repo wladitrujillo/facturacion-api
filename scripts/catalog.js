@@ -28,7 +28,7 @@ const payment_method = [
     { code: '15', value: 'COMPENSACION DE DEUDAS' },
     { code: '16', value: 'TARJETA DE DEBITO' },
     { code: '17', value: 'DINERO ELECTRONICO' },
-    { code: '18', value: 'TRAJETA PREPAGO' },
+    { code: '18', value: 'TARJETA PREPAGO' },
     { code: '19', value: 'TARJETA DE CREDITO' },
     { code: '20', value: 'OTROS CON UTILIZACION DEL SISTEMA FINANCIERO' },
     { code: '21', value: 'ENDOSO DE TITULOS' }
