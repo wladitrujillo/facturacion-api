@@ -59,7 +59,7 @@ export class UserController extends BaseController<IUser>{
             logger.error(error);
             let message = error.message;
             if (error.code == 11000) message = "Registro ya existe";
-            res.send(error?.message);
+            res.send(message);
         }
 
     }
